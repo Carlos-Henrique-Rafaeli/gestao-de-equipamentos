@@ -2,7 +2,7 @@
 
 public class TelaEquipamento
 {
-    Equipamento[] equipamentos = new Equipamento[100];
+    public static Equipamento[] equipamentos = new Equipamento[100];
     int contadorEquipamentos = 0;
 
     public string ApresentarMenu()
@@ -16,7 +16,8 @@ public class TelaEquipamento
         Console.WriteLine("2 - Edição de Equipamento");
         Console.WriteLine("3 - Exclusão de Equipamento");
         Console.WriteLine("4 - Visualizar Estoque");
-        Console.WriteLine("S - Sair do Programa");
+        Console.WriteLine("5 - Gestão de Chamados");
+        Console.WriteLine("S - Voltar ao Menu");
         Console.WriteLine("-------------------------------------");
 
         Console.Write("Digite uma opção válida: ");

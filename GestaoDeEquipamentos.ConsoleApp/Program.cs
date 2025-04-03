@@ -2,32 +2,52 @@
 
 internal class Program
 {
-   
-
     static void Main(string[] args)
     {
+        bool equipamento = true;
+
         TelaEquipamento telaEquipamento = new TelaEquipamento();
+        TelaChamado telaChamado = new TelaChamado();
 
         while (true)
         {
-            string opcaoEscolhida = telaEquipamento.ApresentarMenu();
+            string opcaoEscolhida;
+
+            if (equipamento) opcaoEscolhida = telaEquipamento.ApresentarMenu();
+            else opcaoEscolhida = telaChamado.ApresentarMenu();
 
             switch (opcaoEscolhida)
             {
                 case "1":
-                    telaEquipamento.CadastrarEquipamento();
+                    if (equipamento) telaEquipamento.CadastrarEquipamento();
+                    
+                    else telaChamado.CadastrarChamado();
+                    
                     break;
 
                 case "2":
-                    telaEquipamento.EditarEquipamento();
+                    if (equipamento) telaEquipamento.EditarEquipamento();
+                    
+                    else telaChamado.EditarChamado();
+                    
                     break;
 
                 case "3":
-                    telaEquipamento.EditarEquipamento();
+                    if (equipamento) telaEquipamento.EditarEquipamento();
+
+                    else telaChamado.EditarChamado();
+
                     break;
 
                 case "4":
-                    telaEquipamento.VisualizarEquipamentos(true);
+                    if (equipamento) telaEquipamento.VisualizarEquipamentos(true);
+                    
+                    else telaChamado.VisualizarChamado(true);
+
+                    break;
+                
+                case "5":
+                    equipamento = !equipamento;
                     break;
 
                 case "S":
