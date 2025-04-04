@@ -17,7 +17,7 @@ public class TelaChamado
         Console.WriteLine("3 - Exclusão de Chamado");
         Console.WriteLine("4 - Visualizar Chamados");
         Console.WriteLine("5 - Gestão de Equipamentos");
-        Console.WriteLine("S - Voltar ao Menu");
+        Console.WriteLine("S - Sair do Aplicativo");
         Console.WriteLine("-------------------------------------");
 
         Console.Write("Digite uma opção válida: ");
@@ -66,6 +66,7 @@ public class TelaChamado
                 break;
             }
         }
+
         if (!conseguiuCriar)
         {
             Console.WriteLine("Erro ao criar chamado...");
@@ -90,7 +91,7 @@ public class TelaChamado
         }
 
         Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -15} | {3, -10} | {4, -10} | {5, -10}",
+            "{0, -10} | {1, -15} | {2, -15} | {3, -15} | {4, -17} | {5, -10}",
             "Id", "Título", "Descrição", "Equipamento", "Data de Abertura", "Dias Abertos"
         );
 
@@ -104,7 +105,7 @@ public class TelaChamado
             int diasPassados = (int)diferencaTempo.TotalDays;
 
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -15} | {3, -10} | {4, -10} | {5, -10}",
+            "{0, -10} | {1, -15} | {2, -15} | {3, -15} | {4, -17} | {5, -10}",
             e.id, e.titulo, e.descricao, e.equipamento.nome, e.dataAbertura.ToShortDateString(), diasPassados
         );
         }
@@ -140,19 +141,14 @@ public class TelaChamado
 
         Equipamento equipamentoNovo;
 
-        Chamado novoChamado;
-
         bool conseguiuEditar = false;
 
         for (int i = 0; i < chamados.Length; i++)
         {
             if (chamados[i] == null) continue;
             
-            else if (chamados[i].id == idEquipamento)
+            else if (chamados[i].id == idSelecionado)
             {
-                chamados[i].titulo = titulo;
-                chamados[i].descricao = descricao;
-                chamados[i].dataAbertura = dataAbertura;
                 for (int j = 0; j < TelaEquipamento.equipamentos.Length; j++)
                 {
                     equipamentoNovo = TelaEquipamento.equipamentos[j];
@@ -161,14 +157,19 @@ public class TelaChamado
 
                     else if (equipamentoNovo.id == idEquipamento)
                     {
+                        chamados[i].titulo = titulo;
+                        chamados[i].descricao = descricao;
+                        chamados[i].dataAbertura = dataAbertura;
                         chamados[i].equipamento = equipamentoNovo;
                         conseguiuEditar = true;
                         break;
                     }
                 }
+                
                 break;
             }
         }
+
         if (!conseguiuEditar)
         {
             Console.WriteLine("Erro ao editar chamado...");
@@ -191,10 +192,12 @@ public class TelaChamado
 
         VisualizarChamado(false);
 
-        Console.Write("Digite o Id do registro que deseja selecionar: ");
+        Console.Write("Digite o Id do registro que deseja excluir: ");
         int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
 
         bool conseguiuExcluir = false;
+
+        int indice = -1;
 
         for (int i = 0; i < chamados.Length; i++)
         {
@@ -203,9 +206,20 @@ public class TelaChamado
             else if (chamados[i].id == idSelecionado)
             {
                 conseguiuExcluir = true;
-                chamados[i] = null;
+                indice = i;
             }
         }
+
+        if (conseguiuExcluir)
+        {
+            Console.Write("Deseja mesmo exlcuir? (S/N) ");
+            string opcaoExcluir = Console.ReadLine()!.ToUpper();
+
+            if (opcaoExcluir == "S") chamados[indice] = null;
+
+            else conseguiuExcluir = false;
+        }
+
 
         if (!conseguiuExcluir)
         {

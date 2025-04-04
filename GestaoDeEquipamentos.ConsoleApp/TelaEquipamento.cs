@@ -17,7 +17,7 @@ public class TelaEquipamento
         Console.WriteLine("3 - Exclusão de Equipamento");
         Console.WriteLine("4 - Visualizar Estoque");
         Console.WriteLine("5 - Gestão de Chamados");
-        Console.WriteLine("S - Voltar ao Menu");
+        Console.WriteLine("S - Sair do Aplicativo");
         Console.WriteLine("-------------------------------------");
 
         Console.Write("Digite uma opção válida: ");
@@ -39,7 +39,7 @@ public class TelaEquipamento
         {
             Console.Write("Digite o nome do equipamento: ");
             nome = Console.ReadLine()!;
-            if (nome.Length < 6) Console.WriteLine("Necessita no mínimo 6 caracteres!");
+            if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
             else break;
         } while (true);
         
@@ -110,7 +110,7 @@ public class TelaEquipamento
         {
             Console.Write("Digite o nome do equipamento: ");
             nome = Console.ReadLine()!;
-            if (nome.Length < 6) Console.WriteLine("Necessita no mínimo 6 caracteres!");
+            if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
             else break;
         } while (true);
 
@@ -163,10 +163,12 @@ public class TelaEquipamento
 
         VisualizarEquipamentos(false);
 
-        Console.Write("Digite o Id do registro que deseja selecionar: ");
+        Console.Write("Digite o Id do registro que deseja excluir: ");
         int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
 
         bool conseguiuExcluir = false;
+
+        int indice = -1;
 
         for (int i = 0; i < equipamentos.Length; i++)
         {
@@ -175,9 +177,20 @@ public class TelaEquipamento
             else if (equipamentos[i].id == idSelecionado)
             {
                 conseguiuExcluir = true;
-                equipamentos[i] = null;
+                indice = i;
             }
         }
+
+        if (conseguiuExcluir)
+        {
+            Console.Write("Deseja mesmo exlcuir? (S/N) ");
+            string opcaoExcluir = Console.ReadLine()!.ToUpper();
+
+            if (opcaoExcluir == "S") equipamentos[indice] = null;
+
+            else conseguiuExcluir = false;
+        }
+
 
         if (!conseguiuExcluir)
         {
