@@ -34,8 +34,15 @@ public class TelaEquipamento
         Console.WriteLine("Cadastrando Equipamento...");
         Console.WriteLine("-------------------------------------");
 
-        Console.Write("Digite o nome do equipamento: ");
-        string nome = Console.ReadLine()!;
+        string nome;
+        do
+        {
+            Console.Write("Digite o nome do equipamento: ");
+            nome = Console.ReadLine()!;
+            if (nome.Length < 6) Console.WriteLine("Necessita no mínimo 6 caracteres!");
+            else break;
+        } while (true);
+        
 
         Console.Write("Digite o nome do fabricante: ");
         string fabricante = Console.ReadLine()!;
@@ -97,9 +104,15 @@ public class TelaEquipamento
 
         Console.Write("Digite o Id do registro que deseja selecionar: ");
         int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
-
-        Console.Write("Digite o nome do equipamento: ");
-        string nome = Console.ReadLine()!;
+        
+        string nome;
+        do
+        {
+            Console.Write("Digite o nome do equipamento: ");
+            nome = Console.ReadLine()!;
+            if (nome.Length < 6) Console.WriteLine("Necessita no mínimo 6 caracteres!");
+            else break;
+        } while (true);
 
         Console.Write("Digite o nome do fabricante: ");
         string fabricante = Console.ReadLine()!;
@@ -160,7 +173,10 @@ public class TelaEquipamento
             if (equipamentos[i] == null) continue;
 
             else if (equipamentos[i].id == idSelecionado)
+            {
+                conseguiuExcluir = true;
                 equipamentos[i] = null;
+            }
         }
 
         if (!conseguiuExcluir)

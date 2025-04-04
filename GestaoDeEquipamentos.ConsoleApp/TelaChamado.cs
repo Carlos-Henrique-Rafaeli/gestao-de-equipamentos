@@ -201,7 +201,10 @@ public class TelaChamado
             if (chamados[i] == null) continue;
 
             else if (chamados[i].id == idSelecionado)
+            {
+                conseguiuExcluir = true;
                 chamados[i] = null;
+            }
         }
 
         if (!conseguiuExcluir)

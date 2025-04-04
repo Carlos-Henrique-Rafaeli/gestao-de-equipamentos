@@ -33,9 +33,9 @@ internal class Program
                     break;
 
                 case "3":
-                    if (equipamento) telaEquipamento.EditarEquipamento();
+                    if (equipamento) telaEquipamento.ExcluirEquipamento();
 
-                    else telaChamado.EditarChamado();
+                    else telaChamado.ExcluirChamado();
 
                     break;
 
