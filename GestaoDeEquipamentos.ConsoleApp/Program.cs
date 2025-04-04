@@ -4,59 +4,65 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        bool equipamento = true;
-
+        TelaPrincipal telaPrincipal = new TelaPrincipal();
         TelaEquipamento telaEquipamento = new TelaEquipamento();
-        TelaChamado telaChamado = new TelaChamado();
+        TelaChamado telaChamado = new TelaChamado(telaEquipamento.equipamentos);
+
+        bool deveRodar = true;
 
         while (true)
         {
-            string opcaoEscolhida;
-
-            if (equipamento) opcaoEscolhida = telaEquipamento.ApresentarMenu();
-            else opcaoEscolhida = telaChamado.ApresentarMenu();
+            string opcaoEscolhida = telaPrincipal.ApresentarMenu();
 
             switch (opcaoEscolhida)
             {
                 case "1":
-                    if (equipamento) telaEquipamento.CadastrarEquipamento();
-                    
-                    else telaChamado.CadastrarChamado();
-                    
+                    while (deveRodar)
+                    {
+                        opcaoEscolhida = telaEquipamento.ApresentarMenu();
+                        
+                        switch (opcaoEscolhida)
+                        {
+                            case "1": telaEquipamento.CadastrarEquipamento(); break;
+
+                            case "2": telaEquipamento.EditarEquipamento(); break;
+                            
+                            case "3": telaEquipamento.ExcluirEquipamento(); break;
+                            
+                            case "4": telaEquipamento.VisualizarEquipamentos(true); break;
+                            
+                            case "S": deveRodar = false; break;
+
+                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
+                        }
+                    }
                     break;
 
                 case "2":
-                    if (equipamento) telaEquipamento.EditarEquipamento();
-                    
-                    else telaChamado.EditarChamado();
-                    
+                    while (deveRodar)
+                    {
+                        opcaoEscolhida = telaChamado.ApresentarMenu();
+
+                        switch (opcaoEscolhida)
+                        {
+                            case "1": telaChamado.CadastrarChamado(); break;
+
+                            case "2": telaChamado.EditarChamado(); break;
+
+                            case "3": telaChamado.ExcluirChamado(); break;
+
+                            case "4": telaChamado.VisualizarChamado(true); break;
+
+                            case "S": deveRodar = false; break;
+
+                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
+                        }
+                    }
                     break;
 
-                case "3":
-                    if (equipamento) telaEquipamento.ExcluirEquipamento();
+                case "S": return;
 
-                    else telaChamado.ExcluirChamado();
-
-                    break;
-
-                case "4":
-                    if (equipamento) telaEquipamento.VisualizarEquipamentos(true);
-                    
-                    else telaChamado.VisualizarChamado(true);
-
-                    break;
-                
-                case "5":
-                    equipamento = !equipamento;
-                    break;
-
-                case "S":
-                    return;
-
-                default:
-                    Console.WriteLine("Opção Inválida...");
-                    Console.ReadLine();
-                    break;
+                default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
             }
         }
     }

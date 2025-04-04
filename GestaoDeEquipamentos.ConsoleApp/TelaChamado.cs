@@ -3,7 +3,13 @@
 public class TelaChamado
 {
     Chamado[] chamados = new Chamado[100];
+    Equipamento[] equipamentos;
     int contadorChamados = 0;
+
+    public TelaChamado(Equipamento[] equipamentos)
+    {
+        this.equipamentos = equipamentos;
+    }
 
     public string ApresentarMenu()
     {
@@ -16,8 +22,7 @@ public class TelaChamado
         Console.WriteLine("2 - Edição de Chamado");
         Console.WriteLine("3 - Exclusão de Chamado");
         Console.WriteLine("4 - Visualizar Chamados");
-        Console.WriteLine("5 - Gestão de Equipamentos");
-        Console.WriteLine("S - Sair do Aplicativo");
+        Console.WriteLine("S - Voltar ao Menu");
         Console.WriteLine("-------------------------------------");
 
         Console.Write("Digite uma opção válida: ");
@@ -34,14 +39,34 @@ public class TelaChamado
         Console.WriteLine("Cadastrando Chamado...");
         Console.WriteLine("-------------------------------------");
 
-        Console.Write("Digite o título do chamado: ");
-        string titulo = Console.ReadLine()!;
+        string titulo;
+        do
+        {
+            Console.Write("Digite o título do chamado: ");
+            titulo = Console.ReadLine()!;
+            if (String.IsNullOrEmpty(titulo)) Console.WriteLine("\nTítulo Inválido...\n");
 
-        Console.Write("Digite a descrição do chamado: ");
-        string descricao = Console.ReadLine()!;
+        } while (String.IsNullOrEmpty(titulo));
 
-        Console.Write("Digite o id do equipamento: ");
-        int idEquipamento = Convert.ToInt32(Console.ReadLine()!);
+        string descricao;
+        do
+        {
+            Console.Write("Digite a descrição do chamado: ");
+            descricao = Console.ReadLine()!;
+            if (String.IsNullOrEmpty(descricao)) Console.WriteLine("\nDescrição Inválida...\n");
+
+        } while (String.IsNullOrEmpty(descricao));
+
+        int idEquipamento;
+        bool idValido;
+        do
+        {
+            Console.Write("Digite o Id do equipamento: ");
+            idValido = int.TryParse(Console.ReadLine(), out idEquipamento);
+
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!idValido);
 
         DateTime dataAbertura = DateTime.Now;
 
@@ -51,9 +76,9 @@ public class TelaChamado
 
         bool conseguiuCriar = false;
 
-        for (int i = 0; i < TelaEquipamento.equipamentos.Length; i++)
+        for (int i = 0; i < equipamentos.Length; i++)
         {
-            equipamentoNovo = TelaEquipamento.equipamentos[i];
+            equipamentoNovo = equipamentos[i];
 
             if (equipamentoNovo == null) continue;
             
@@ -124,20 +149,56 @@ public class TelaChamado
 
         VisualizarChamado(false);
 
-        Console.Write("Digite o Id do registro que deseja selecionar: ");
-        int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
+        int idSelecionado;
+        bool idValido;
+        do
+        {
+            Console.Write("Digite o Id do registro que deseja selecionar: ");
+            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
 
-        Console.Write("Digite o título do chamado: ");
-        string titulo = Console.ReadLine()!;
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
 
-        Console.Write("Digite a descrição do chamado: ");
-        string descricao = Console.ReadLine()!;
+        } while (!idValido);
 
-        Console.Write("Digite o id do equipamento: ");
-        int idEquipamento = Convert.ToInt32(Console.ReadLine()!);
+        string titulo;
+        do
+        {
+            Console.Write("Digite o título do chamado: ");
+            titulo = Console.ReadLine()!;
+            if (String.IsNullOrEmpty(titulo)) Console.WriteLine("\nTítulo Inválido...\n");
 
-        Console.Write("Digite a data em que o chamado foi criado: ");
-        DateTime dataAbertura = Convert.ToDateTime(Console.ReadLine()!);
+        } while (String.IsNullOrEmpty(titulo));
+
+        string descricao;
+        do
+        {
+            Console.Write("Digite a descrição do chamado: ");
+            descricao = Console.ReadLine()!;
+            if (String.IsNullOrEmpty(descricao)) Console.WriteLine("\nDescrição Inválida...\n");
+
+        } while (String.IsNullOrEmpty(descricao));
+
+        int idEquipamento;
+        bool idEquipamentoValido;
+        do
+        {
+            Console.Write("Digite o Id do equipamento: ");
+            idEquipamentoValido = int.TryParse(Console.ReadLine(), out idEquipamento);
+
+            if (!idEquipamentoValido) Console.WriteLine("\nId Inválido...");
+
+        } while (!idEquipamentoValido);
+
+        DateTime dataAbertura;
+        bool dataValida;
+        do
+        {
+            Console.Write("Digite a data da abertura do chamado: (dd/mm/yyyy) ");
+            dataValida = DateTime.TryParse(Console.ReadLine(), out dataAbertura);
+
+            if (!dataValida) Console.WriteLine("\nData Inválida...\n");
+
+        } while (!dataValida);
 
         Equipamento equipamentoNovo;
 
@@ -149,9 +210,9 @@ public class TelaChamado
             
             else if (chamados[i].id == idSelecionado)
             {
-                for (int j = 0; j < TelaEquipamento.equipamentos.Length; j++)
+                for (int j = 0; j < equipamentos.Length; j++)
                 {
-                    equipamentoNovo = TelaEquipamento.equipamentos[j];
+                    equipamentoNovo = equipamentos[j];
 
                     if (equipamentoNovo == null) continue;
 
@@ -192,8 +253,16 @@ public class TelaChamado
 
         VisualizarChamado(false);
 
-        Console.Write("Digite o Id do registro que deseja excluir: ");
-        int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
+        int idSelecionado;
+        bool idValido;
+        do
+        {
+            Console.Write("Digite o Id do registro que deseja excluir: ");
+            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
+
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!idValido);
 
         bool conseguiuExcluir = false;
 
@@ -217,7 +286,7 @@ public class TelaChamado
 
             if (opcaoExcluir == "S") chamados[indice] = null;
 
-            else conseguiuExcluir = false;
+            else return;
         }
 
 

@@ -2,7 +2,7 @@
 
 public class TelaEquipamento
 {
-    public static Equipamento[] equipamentos = new Equipamento[100];
+    public Equipamento[] equipamentos = new Equipamento[100];
     int contadorEquipamentos = 0;
 
     public string ApresentarMenu()
@@ -16,8 +16,7 @@ public class TelaEquipamento
         Console.WriteLine("2 - Edição de Equipamento");
         Console.WriteLine("3 - Exclusão de Equipamento");
         Console.WriteLine("4 - Visualizar Estoque");
-        Console.WriteLine("5 - Gestão de Chamados");
-        Console.WriteLine("S - Sair do Aplicativo");
+        Console.WriteLine("S - Voltar ao Menu");
         Console.WriteLine("-------------------------------------");
 
         Console.Write("Digite uma opção válida: ");
@@ -39,19 +38,41 @@ public class TelaEquipamento
         {
             Console.Write("Digite o nome do equipamento: ");
             nome = Console.ReadLine()!;
+            
             if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
-            else break;
-        } while (true);
+
+        } while (nome.Length < 6);
+
+        string fabricante;
+        do
+        {
+            Console.Write("Digite o nome do fabricante: ");
+            fabricante = Console.ReadLine()!;
+            if (String.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
+
+        } while (String.IsNullOrEmpty(fabricante));
+
+        decimal precoAquisicao;
+        bool precoValido;
+        do
+        {
+            Console.Write("Digite o preço de aquisição: R$ ");
+            precoValido = decimal.TryParse(Console.ReadLine(), out precoAquisicao);
+
+            if (!precoValido) Console.WriteLine("\nPreço Inválido...\n");
+        } while (!precoValido);
+
+        DateTime dataFabricacao;
+        bool dataValida;
+        do
+        {
+            Console.Write("Digite a data de fabricação do produto: (dd/mm/yyyy) ");
+            dataValida = DateTime.TryParse(Console.ReadLine(), out dataFabricacao);
+
+            if (!dataValida) Console.WriteLine("\nData Inválida...\n");
+
+        } while (!dataValida);
         
-
-        Console.Write("Digite o nome do fabricante: ");
-        string fabricante = Console.ReadLine()!;
-
-        Console.Write("Digite o preço de aquisição: R$ ");
-        decimal precoAquisicao = Convert.ToDecimal(Console.ReadLine()!);
-
-        Console.Write("Digite a data de fabricação do produto: (dd/mm/yyyy) ");
-        DateTime dataFabricacao = Convert.ToDateTime(Console.ReadLine()!);
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
         novoEquipamento.id = GeradorIds.GerarIdEquipamento();
@@ -102,26 +123,56 @@ public class TelaEquipamento
         
         VisualizarEquipamentos(false);
 
-        Console.Write("Digite o Id do registro que deseja selecionar: ");
-        int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
-        
+        int idSelecionado;
+        bool idValido;
+        do
+        {
+            Console.Write("Digite o Id do registro que deseja selecionar: ");
+            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
+
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!idValido);
+
         string nome;
         do
         {
             Console.Write("Digite o nome do equipamento: ");
             nome = Console.ReadLine()!;
+
             if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
-            else break;
-        } while (true);
 
-        Console.Write("Digite o nome do fabricante: ");
-        string fabricante = Console.ReadLine()!;
+        } while (nome.Length < 6);
 
-        Console.Write("Digite o preço de aquisição: R$ ");
-        decimal precoAquisicao = Convert.ToDecimal(Console.ReadLine()!);
+        string fabricante;
+        do
+        {
+            Console.Write("Digite o nome do fabricante: ");
+            fabricante = Console.ReadLine()!;
+            if (String.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
 
-        Console.Write("Digite a data de fabricação do produto: (dd/mm/yyyy) ");
-        DateTime dataFabricacao = Convert.ToDateTime(Console.ReadLine()!);
+        } while (String.IsNullOrEmpty(fabricante));
+
+        decimal precoAquisicao;
+        bool precoValido;
+        do
+        {
+            Console.Write("Digite o preço de aquisição: R$ ");
+            precoValido = decimal.TryParse(Console.ReadLine(), out precoAquisicao);
+
+            if (!precoValido) Console.WriteLine("\nPreço Inválido...\n");
+        } while (!precoValido);
+
+        DateTime dataFabricacao;
+        bool dataValida;
+        do
+        {
+            Console.Write("Digite a data de fabricação do produto: (dd/mm/yyyy) ");
+            dataValida = DateTime.TryParse(Console.ReadLine(), out dataFabricacao);
+
+            if (!dataValida) Console.WriteLine("\nData Inválida...\n");
+
+        } while (!dataValida);
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
 
@@ -163,8 +214,17 @@ public class TelaEquipamento
 
         VisualizarEquipamentos(false);
 
-        Console.Write("Digite o Id do registro que deseja excluir: ");
-        int idSelecionado = Convert.ToInt32(Console.ReadLine()!);
+        int idSelecionado;
+        bool idValido;
+        do
+        {
+            Console.Write("Digite o Id do registro que deseja excluir: ");
+            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
+
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!idValido);
+        
 
         bool conseguiuExcluir = false;
 
@@ -188,7 +248,7 @@ public class TelaEquipamento
 
             if (opcaoExcluir == "S") equipamentos[indice] = null;
 
-            else conseguiuExcluir = false;
+            else return;
         }
 
 
