@@ -8,10 +8,10 @@ internal class Program
         TelaEquipamento telaEquipamento = new TelaEquipamento();
         TelaChamado telaChamado = new TelaChamado(telaEquipamento.equipamentos);
 
-        bool deveRodar = true;
-
         while (true)
         {
+            bool deveRodar = true;
+
             string opcaoEscolhida = telaPrincipal.ApresentarMenu();
 
             switch (opcaoEscolhida)
