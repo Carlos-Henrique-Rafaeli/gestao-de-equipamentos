@@ -1,61 +1,77 @@
-﻿# 📦Gestão do Aramazém 📦
+﻿# 📦Gestão do Aramazém📦
 
 ## Demonstração
 
-### Gestor de Equipamentos
-![](https://i.imgur.com/Z3Scst9.gif)
 
-### Gestor de Chamados
+### Controle de Fabricantes
 
-![](https://i.imgur.com/NOP9mpF.gif)
+![](https://i.imgur.com/0ESbxhv.gif)
+
+### Controle de Equipamentos
+![](https://i.imgur.com/HJOxcoX.gif)
+
+### Controle de Chamados
+
+![](https://i.imgur.com/Z8NaOWF.gif)
+
 
 ## Introdução
 
-Aplicativo para gerenciamento de um armazém, permitindo o controle de equipamentos e chamados. Épossível cadastrar, editar, remover e visualizar essas informações de forma prática.
+Aplicativo para gerenciamento de um armazém, permitindo o controle de equipamentos, fabricantes e chamados. É possível cadastrar, editar, remover e visualizar essas informações de forma prática.
 
 ## Funcionalidades
 
-- **Cadastro de Equipamentos:** Adicione novos equipamentos ao sistema com suas respectivas informações.
-	- **Nome** 
-	- **Fabricante** 
-	- **Preço de Aquisição** 
-	- **Data Adquirida** 
-- **Edição de Equipamentos:** Altere os dados de equipamentos já cadastrados.
-- **Remoção de Equipamentos:** Exclua equipamentos que não são mais necessários.
-- **Visualização de Equipamentos:** Consulte a lista de equipamentos registrados.
-- **Abertura de Chamados:** Crie chamados relacionados a equipamentos.
-- **Edição de Chamados:** Atualize as informações de chamados existentes.
-- **Encerramento/Exclusão de Chamados:** Finalize ou remova chamados do sistema.
-- **Visualização de Chamados:** Veja os chamados abertos e quantos dias se passaram desde sua abertura.
+### Equipamentos
 
-## Como utilizar
+- **Cadastro de Equipamentos:** Adicione novos equipamentos com as seguintes informações:
+  - Nome
+  - Fabricante
+  - Preço de Aquisição
+  - Data de Aquisição
 
-1. Clone o repositório ou baixe o código fonte.
-2. Abra o terminal ou o prompt de comando e navegue até a pasta raiz
-3. Utilize o comando abaixo para restaurar as dependências do projeto.
+- **Edição de Equipamentos:** Atualize os dados de equipamentos cadastrados.
 
+- **Remoção de Equipamentos:** Exclua equipamentos que não são mais utilizados.
+
+- **Visualização de Equipamentos:** Consulte a lista de equipamentos registrados no sistema.
+
+### Fabricantes
+
+- **Cadastro de Fabricantes:** Registre novos fabricantes para associar aos equipamentos.
+
+### Chamados
+
+- **Abertura de Chamados:** Crie chamados relacionados a equipamentos para registrar problemas.
+
+- **Edição de Chamados:** Atualize as informações dos chamados existentes.
+
+- **Encerramento/Exclusão de Chamados:** Finalize chamados resolvidos ou remova registros desnecessários.
+
+- **Visualização de Chamados:** Veja todos os chamados abertos e o número de dias desde sua abertura.
+
+## Como Utilizar
+
+#### Clone o Repositório
+```
+git clone https://github.com/Carlos-Henrique-Rafaeli/gestao-de-equipamentos.git
+```
+
+#### Navegue até a pasta raiz da solução
+```
+cd gestao-de-equipamentos
+```
+
+#### Restaure as dependências
 ```
 dotnet restore
 ```
 
-4. Em seguida, compile a solução utilizando o comando:
-   
+#### Navegue até a pasta do projeto
 ```
-dotnet build --configuration Release
-```
-
-5. Para executar o projeto compilando em tempo real
-   
-```
-dotnet run --project GestaoDeEquipamentos.ConsoleApp
+cd GestaoDeEquipamentos.ConsoleApp
 ```
 
-6. Para executar o arquivo compilado, navegue até a pasta `./GestaoDeEquipamentos.ConsoleApp/bin/Release/net8.0/` e execute o arquivo:
-   
+#### Execute o projeto
 ```
-GestaoDeEquipamentos.ConsoleApp.exe
+dotnet run
 ```
-
-## Requisitos
-
-- .NET SDK (recomendado .NET 8.0 ou superior) para compilação e execução do projeto.
