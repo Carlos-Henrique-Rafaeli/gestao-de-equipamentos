@@ -1,9 +1,14 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp;
+﻿namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 public class TelaEquipamento
 {
-    public Equipamento[] equipamentos = new Equipamento[100];
-    int contadorEquipamentos = 0;
+
+    public RepositorioEquipamento repositorioEquipamento;
+
+    public TelaEquipamento()
+    {
+        repositorioEquipamento = new RepositorioEquipamento();
+    }
 
     public string ApresentarMenu()
     {
@@ -15,7 +20,7 @@ public class TelaEquipamento
         Console.WriteLine("1 - Cadastro de Equipamento");
         Console.WriteLine("2 - Edição de Equipamento");
         Console.WriteLine("3 - Exclusão de Equipamento");
-        Console.WriteLine("4 - Visualizar Estoque");
+        Console.WriteLine("4 - Visualização de Equipamentos");
         Console.WriteLine("S - Voltar ao Menu");
         Console.WriteLine("-------------------------------------");
 
@@ -26,10 +31,8 @@ public class TelaEquipamento
 
     public void CadastrarEquipamento()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Equipamentos");
-        Console.WriteLine("-------------------------------------");
+        ExibirCabecalho();
+
         Console.WriteLine("Cadastrando Equipamento...");
         Console.WriteLine("-------------------------------------");
 
@@ -38,7 +41,7 @@ public class TelaEquipamento
         {
             Console.Write("Digite o nome do equipamento: ");
             nome = Console.ReadLine()!;
-            
+
             if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
 
         } while (nome.Length < 6);
@@ -48,9 +51,9 @@ public class TelaEquipamento
         {
             Console.Write("Digite o nome do fabricante: ");
             fabricante = Console.ReadLine()!;
-            if (String.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
+            if (string.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
 
-        } while (String.IsNullOrEmpty(fabricante));
+        } while (string.IsNullOrEmpty(fabricante));
 
         decimal precoAquisicao;
         bool precoValido;
@@ -72,52 +75,17 @@ public class TelaEquipamento
             if (!dataValida) Console.WriteLine("\nData Inválida...\n");
 
         } while (!dataValida);
-        
+
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
-        novoEquipamento.id = GeradorIds.GerarIdEquipamento();
 
-        equipamentos[contadorEquipamentos++] = novoEquipamento;
-    }
-
-    public void VisualizarEquipamentos(bool exibirTitulo)
-    {
-        if (exibirTitulo)
-        {
-            Console.Clear();
-            Console.WriteLine("-------------------------------------");
-            Console.WriteLine("Gestão de Equipamentos");
-            Console.WriteLine("-------------------------------------");
-            Console.WriteLine("Visualizando Equipamentos...");
-            Console.WriteLine("-------------------------------------");
-        }
-
-        Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
-        );
-
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            Equipamento e = equipamentos[i];
-
-            if (e == null) continue;
-
-            Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-            e.id, e.nome, e.ObterNumeroSerie(), e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
-            );
-        }
-
-        if (exibirTitulo) Console.ReadLine();
+        repositorioEquipamento.CadastarEquipamento(novoEquipamento);
     }
 
     public void EditarEquipamento()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Equipamentos");
-        Console.WriteLine("-------------------------------------");
+        ExibirCabecalho();
+
         Console.WriteLine("Cadastrando Equipamento...");
         Console.WriteLine("-------------------------------------");
         
@@ -149,9 +117,9 @@ public class TelaEquipamento
         {
             Console.Write("Digite o nome do fabricante: ");
             fabricante = Console.ReadLine()!;
-            if (String.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
+            if (string.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
 
-        } while (String.IsNullOrEmpty(fabricante));
+        } while (string.IsNullOrEmpty(fabricante));
 
         decimal precoAquisicao;
         bool precoValido;
@@ -176,21 +144,8 @@ public class TelaEquipamento
 
         Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
 
-        bool conseguiuEditar = false;
+        bool conseguiuEditar = repositorioEquipamento.EditarEquipamento(idSelecionado, novoEquipamento);
 
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            if (equipamentos[i] == null) continue;
-
-            else if (equipamentos[i].id == idSelecionado)
-            {
-                equipamentos[i].nome = novoEquipamento.nome;
-                equipamentos[i].fabricante = novoEquipamento.fabricante;
-                equipamentos[i].precoAquisicao = novoEquipamento.precoAquisicao;
-                equipamentos[i].dataFabricacao = novoEquipamento.dataFabricacao;
-                conseguiuEditar = true;
-            }
-        }
         
         if (!conseguiuEditar)
         {
@@ -205,10 +160,8 @@ public class TelaEquipamento
     
     public void ExcluirEquipamento()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Equipamentos");
-        Console.WriteLine("-------------------------------------");
+        ExibirCabecalho();
+
         Console.WriteLine("Excluindo Equipamento...");
         Console.WriteLine("-------------------------------------");
 
@@ -226,30 +179,7 @@ public class TelaEquipamento
         } while (!idValido);
         
 
-        bool conseguiuExcluir = false;
-
-        int indice = -1;
-
-        for (int i = 0; i < equipamentos.Length; i++)
-        {
-            if (equipamentos[i] == null) continue;
-
-            else if (equipamentos[i].id == idSelecionado)
-            {
-                conseguiuExcluir = true;
-                indice = i;
-            }
-        }
-
-        if (conseguiuExcluir)
-        {
-            Console.Write("Deseja mesmo exlcuir? (S/N) ");
-            string opcaoExcluir = Console.ReadLine()!.ToUpper();
-
-            if (opcaoExcluir == "S") equipamentos[indice] = null;
-
-            else return;
-        }
+        bool conseguiuExcluir = repositorioEquipamento.ExcluirEquipamento(idSelecionado);
 
 
         if (!conseguiuExcluir)
@@ -261,5 +191,45 @@ public class TelaEquipamento
 
         Console.WriteLine("Equipamento excluído com sucesso!");
         Console.ReadLine();
+    }
+
+    private void ExibirCabecalho()
+    {
+        Console.Clear();
+        Console.WriteLine("-------------------------------------");
+        Console.WriteLine("Gestão de Equipamentos");
+        Console.WriteLine("-------------------------------------");
+    }
+
+    public void VisualizarEquipamentos(bool exibirTitulo)
+    {
+        if (exibirTitulo)
+        {
+            ExibirCabecalho();
+
+            Console.WriteLine("Visualizando Equipamentos...");
+            Console.WriteLine("-------------------------------------");
+        }
+
+        Console.WriteLine(
+            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
+        );
+
+        Equipamento[] equipamentosCadastrados = repositorioEquipamento.SelecionarEquipamentos();
+
+        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        {
+            Equipamento e = equipamentosCadastrados[i];
+
+            if (e == null) continue;
+
+            Console.WriteLine(
+            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+            e.id, e.nome, e.ObterNumeroSerie(), e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            );
+        }
+
+        if (exibirTitulo) Console.ReadLine();
     }
 }

@@ -1,4 +1,8 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+
+namespace GestaoDeEquipamentos.ConsoleApp;
 
 internal class Program
 {
@@ -6,7 +10,10 @@ internal class Program
     {
         TelaPrincipal telaPrincipal = new TelaPrincipal();
         TelaEquipamento telaEquipamento = new TelaEquipamento();
-        TelaChamado telaChamado = new TelaChamado(telaEquipamento.equipamentos);
+
+        RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
+
+        TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
 
         while (true)
         {

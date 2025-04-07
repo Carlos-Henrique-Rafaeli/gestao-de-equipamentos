@@ -1,6 +1,8 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
-class Chamado
+namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
+
+public class Chamado
 {
     public int id;
     public string titulo;
@@ -9,12 +11,12 @@ class Chamado
     public DateTime dataAbertura;
 
 
-    public Chamado(string titulo, string descricao, Equipamento equipamento, DateTime dataAbertura)
+    public Chamado(string titulo, string descricao, Equipamento equipamento)
     {
         this.titulo = titulo;
         this.descricao = descricao;
         this.equipamento = equipamento;
-        this.dataAbertura = dataAbertura;
+        this.dataAbertura = DateTime.Now;
     }
 
 }
