@@ -16,10 +16,8 @@ public class TelaChamado
 
     public string ApresentarMenu()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Chamados");
-        Console.WriteLine("-------------------------------------");
+        ExibirCabecalho();
+
         Console.WriteLine("Escolha a operação desejada:");
         Console.WriteLine("1 - Cadastro de Chamado");
         Console.WriteLine("2 - Edição de Chamado");
@@ -44,12 +42,6 @@ public class TelaChamado
 
         repositorioChamado.CadastrarChamado(novoChamado);
     }
-
-    
-
-    
-
-    
 
     public void EditarChamado()
     {
@@ -177,7 +169,7 @@ public class TelaChamado
 
             Console.WriteLine(
                 "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-                e.id, e.nome, e.ObterNumeroSerie(), e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+                e.id, e.nome, e.ObterNumeroSerie(), e.fabricante.nome, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
             );
         }
 
@@ -188,7 +180,7 @@ public class TelaChamado
     {
         Console.Clear();
         Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Chamados");
+        Console.WriteLine("|        Controle de Chamados       |");
         Console.WriteLine("-------------------------------------");
     }
 

@@ -10,8 +10,12 @@ internal class Program
     static void Main(string[] args)
     {
         TelaPrincipal telaPrincipal = new TelaPrincipal();
-        TelaEquipamento telaEquipamento = new TelaEquipamento();
+        
         TelaFabricante telaFabricante = new TelaFabricante();
+
+        RepositorioFabricante repositorioFabricante = telaFabricante.repositorioFabricante;
+        
+        TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioFabricante);
 
         RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
 
@@ -61,6 +65,28 @@ internal class Program
                             case "3": telaChamado.ExcluirChamado(); break;
 
                             case "4": telaChamado.VisualizarChamado(true); break;
+
+                            case "S": deveRodar = false; break;
+
+                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
+                        }
+                    }
+                    break;
+
+                case "3":
+                    while (deveRodar)
+                    {
+                        opcaoEscolhida = telaFabricante.ApresentarMenu();
+
+                        switch (opcaoEscolhida)
+                        {
+                            case "1": telaFabricante.CadastrarEquipamento(); break;
+
+                            case "2": telaFabricante.EditarFabricante(); break;
+
+                            case "3": telaFabricante.ExcluirFabricante(); break;
+
+                            case "4": telaFabricante.VisualizarFabricantes(true); break;
 
                             case "S": deveRodar = false; break;
 

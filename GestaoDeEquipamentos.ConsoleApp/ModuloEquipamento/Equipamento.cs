@@ -1,15 +1,17 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+
+namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 public class Equipamento
 {
     public int id;
     public string nome;
-    public string fabricante;
+    public Fabricante fabricante;
     public decimal precoAquisicao;
     public DateTime dataFabricacao;
 
 
-    public Equipamento(string nome, string fabricante, decimal precoAquisicao, DateTime dataFabricacao)
+    public Equipamento(string nome, Fabricante fabricante, decimal precoAquisicao, DateTime dataFabricacao)
     {
         this.nome = nome;
         this.fabricante = fabricante;

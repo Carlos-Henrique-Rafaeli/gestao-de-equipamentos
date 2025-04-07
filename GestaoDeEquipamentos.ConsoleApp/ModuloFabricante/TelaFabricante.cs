@@ -13,10 +13,8 @@ public class TelaFabricante
 
     public string ApresentarMenu()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Fabricantes");
-        Console.WriteLine("-------------------------------------");
+        ExibirCabecalho();
+
         Console.WriteLine("Escolha a operação desejada:");
         Console.WriteLine("1 - Cadastro de Fabricante");
         Console.WriteLine("2 - Edição de Fabricante");
@@ -78,7 +76,7 @@ public class TelaFabricante
         Console.ReadLine();
     }
 
-    public void ExcluirEquipamento()
+    public void ExcluirFabricante()
     {
         ExibirCabecalho();
 
@@ -117,7 +115,7 @@ public class TelaFabricante
     {
         Console.Clear();
         Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Equipamentos");
+        Console.WriteLine("|      Controle de Fabricantes      |");
         Console.WriteLine("-------------------------------------");
     }
 
@@ -132,7 +130,7 @@ public class TelaFabricante
         }
 
         Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -15} | {3, -15}",
+            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
             "Id", "Nome", "E-Mail", "Telefone"
         );
 
@@ -145,7 +143,7 @@ public class TelaFabricante
             if (f == null) continue;
 
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -15} | {3, -15}",
+            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
             f.id, f.nome, f.email, f.telefone
             );
         }
@@ -155,15 +153,8 @@ public class TelaFabricante
 
     public Fabricante ObterDadosFabricante()
     {
-        string nome;
-        do
-        {
-            Console.Write("Digite o nome do Fabricante: ");
-            nome = Console.ReadLine()!;
-
-            if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
-
-        } while (nome.Length < 6);
+        Console.Write("Digite o nome do Fabricante: ");
+        string nome = Console.ReadLine()!;
 
         string email;
         do
@@ -174,15 +165,14 @@ public class TelaFabricante
 
         } while (string.IsNullOrEmpty(email));
 
-        int telefone;
-        bool telefoneValido;
+        string telefone;
         do
         {
             Console.Write("Digite o telefone do fabricante: ");
-            telefoneValido = int.TryParse(Console.ReadLine(), out telefone);
+            telefone = Console.ReadLine()!;
 
-            if (!telefoneValido) Console.WriteLine("\nTelefone Inválido...\n");
-        } while (!telefoneValido);
+            if (String.IsNullOrEmpty(telefone)) Console.WriteLine("\nTelefone Inválido...\n");
+        } while (String.IsNullOrEmpty(telefone));
 
         Fabricante novoFabricante = new Fabricante(nome, email, telefone);
         return novoFabricante;

@@ -1,21 +1,23 @@
-﻿namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+
+namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 public class TelaEquipamento
 {
 
     public RepositorioEquipamento repositorioEquipamento;
+    public RepositorioFabricante repositorioFabricante;
 
-    public TelaEquipamento()
+    public TelaEquipamento(RepositorioFabricante repositorioFabricante)
     {
         repositorioEquipamento = new RepositorioEquipamento();
+        this.repositorioFabricante = repositorioFabricante;
     }
 
     public string ApresentarMenu()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Equipamentos");
-        Console.WriteLine("-------------------------------------");
+        ExibirCabecalho();
+
         Console.WriteLine("Escolha a operação desejada:");
         Console.WriteLine("1 - Cadastro de Equipamento");
         Console.WriteLine("2 - Edição de Equipamento");
@@ -35,7 +37,13 @@ public class TelaEquipamento
 
         Console.WriteLine("Cadastrando Equipamento...");
         Console.WriteLine("-------------------------------------");
+        Equipamento novoEquipamento = ObterDadosEquipamentos();
 
+        repositorioEquipamento.CadastarEquipamento(novoEquipamento);
+    }
+
+    public Equipamento ObterDadosEquipamentos()
+    {
         string nome;
         do
         {
@@ -46,14 +54,18 @@ public class TelaEquipamento
 
         } while (nome.Length < 6);
 
-        string fabricante;
+        VisializarFabricantes();
+
+        int idFabricante;
+        bool fabricanteValido;
         do
         {
-            Console.Write("Digite o nome do fabricante: ");
-            fabricante = Console.ReadLine()!;
-            if (string.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
+            Console.Write("Digite o id do fabricante: ");
+            fabricanteValido = int.TryParse(Console.ReadLine(), out idFabricante);
 
-        } while (string.IsNullOrEmpty(fabricante));
+            if (!fabricanteValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!fabricanteValido);
 
         decimal precoAquisicao;
         bool precoValido;
@@ -76,11 +88,13 @@ public class TelaEquipamento
 
         } while (!dataValida);
 
+        Fabricante novoFabricante = repositorioFabricante.SelecionarEquipamentoPorId(idFabricante);
 
-        Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
-
-        repositorioEquipamento.CadastarEquipamento(novoEquipamento);
+        Equipamento novoEquipamento = new Equipamento(nome, novoFabricante, precoAquisicao, dataFabricacao);
+        return novoEquipamento;
     }
+
+    
 
     public void EditarEquipamento()
     {
@@ -102,47 +116,7 @@ public class TelaEquipamento
 
         } while (!idValido);
 
-        string nome;
-        do
-        {
-            Console.Write("Digite o nome do equipamento: ");
-            nome = Console.ReadLine()!;
-
-            if (nome.Length < 6) Console.WriteLine("\nNecessita no mínimo 6 caracteres!\n");
-
-        } while (nome.Length < 6);
-
-        string fabricante;
-        do
-        {
-            Console.Write("Digite o nome do fabricante: ");
-            fabricante = Console.ReadLine()!;
-            if (string.IsNullOrEmpty(fabricante)) Console.WriteLine("\nFabricante Inválido...\n");
-
-        } while (string.IsNullOrEmpty(fabricante));
-
-        decimal precoAquisicao;
-        bool precoValido;
-        do
-        {
-            Console.Write("Digite o preço de aquisição: R$ ");
-            precoValido = decimal.TryParse(Console.ReadLine(), out precoAquisicao);
-
-            if (!precoValido) Console.WriteLine("\nPreço Inválido...\n");
-        } while (!precoValido);
-
-        DateTime dataFabricacao;
-        bool dataValida;
-        do
-        {
-            Console.Write("Digite a data de fabricação do produto: (dd/mm/yyyy) ");
-            dataValida = DateTime.TryParse(Console.ReadLine(), out dataFabricacao);
-
-            if (!dataValida) Console.WriteLine("\nData Inválida...\n");
-
-        } while (!dataValida);
-
-        Equipamento novoEquipamento = new Equipamento(nome, fabricante, precoAquisicao, dataFabricacao);
+        Equipamento novoEquipamento = ObterDadosEquipamentos();
 
         bool conseguiuEditar = repositorioEquipamento.EditarEquipamento(idSelecionado, novoEquipamento);
 
@@ -197,7 +171,7 @@ public class TelaEquipamento
     {
         Console.Clear();
         Console.WriteLine("-------------------------------------");
-        Console.WriteLine("Gestão de Equipamentos");
+        Console.WriteLine("|       Controle de Equipamentos    |");
         Console.WriteLine("-------------------------------------");
     }
 
@@ -226,10 +200,33 @@ public class TelaEquipamento
 
             Console.WriteLine(
             "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-            e.id, e.nome, e.ObterNumeroSerie(), e.fabricante, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            e.id, e.nome, e.ObterNumeroSerie(), e.fabricante.nome, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
             );
         }
 
         if (exibirTitulo) Console.ReadLine();
+    }
+
+    public void VisializarFabricantes()
+    {
+        Console.WriteLine(
+            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
+        "Id", "Nome", "E-Mail", "Telefone"
+        );
+
+        Fabricante[] equipamentosCadastrados = repositorioFabricante.SelecionarEquipamentos();
+
+        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        {
+            Fabricante f = equipamentosCadastrados[i];
+
+            if (f == null) continue;
+
+            Console.WriteLine(
+            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
+            f.id, f.nome, f.email, f.telefone
+            );
+        }
+        Console.WriteLine();
     }
 }
