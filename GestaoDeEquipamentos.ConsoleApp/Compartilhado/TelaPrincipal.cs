@@ -11,6 +11,7 @@ class TelaPrincipal
         Console.WriteLine("Escolha a operação desejada:");
         Console.WriteLine("1 - Gestor de Equipamentos");
         Console.WriteLine("2 - Gestor de Chamados");
+        Console.WriteLine("3 - Gestor de Fabricantes");
         Console.WriteLine("S - Sair do Aplicativo");
         Console.WriteLine("-------------------------------------");
 

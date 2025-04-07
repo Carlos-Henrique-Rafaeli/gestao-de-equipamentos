@@ -1,6 +1,7 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp;
 
@@ -10,6 +11,7 @@ internal class Program
     {
         TelaPrincipal telaPrincipal = new TelaPrincipal();
         TelaEquipamento telaEquipamento = new TelaEquipamento();
+        TelaFabricante telaFabricante = new TelaFabricante();
 
         RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
 

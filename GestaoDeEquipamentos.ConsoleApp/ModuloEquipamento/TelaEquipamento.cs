@@ -86,7 +86,7 @@ public class TelaEquipamento
     {
         ExibirCabecalho();
 
-        Console.WriteLine("Cadastrando Equipamento...");
+        Console.WriteLine("Editando Equipamento...");
         Console.WriteLine("-------------------------------------");
         
         VisualizarEquipamentos(false);
