@@ -7,9 +7,10 @@ public class TelaFabricante
     public RepositorioFabricante repositorioFabricante;
     public RepositorioEquipamento repositorioEquipamento;
 
-    public TelaFabricante()
+    public TelaFabricante(RepositorioFabricante repositorioFabricante, RepositorioEquipamento repositorioEquipamento)
     {
-        repositorioFabricante = new RepositorioFabricante();
+        this.repositorioFabricante = repositorioFabricante;
+        this.repositorioEquipamento = repositorioEquipamento;
     }
 
     public string ApresentarMenu()

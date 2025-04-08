@@ -9,19 +9,15 @@ internal class Program
 {
     static void Main(string[] args)
     {
+        RepositorioFabricante repositorioFabricante = new RepositorioFabricante();
+        RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
+        RepositorioChamado repositorioChamado = new RepositorioChamado();
+
         TelaPrincipal telaPrincipal = new TelaPrincipal();
         
-        TelaFabricante telaFabricante = new TelaFabricante();
-
-        RepositorioFabricante repositorioFabricante = telaFabricante.repositorioFabricante;
-        
-        TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioFabricante);
-
-        RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
-        
-        telaFabricante.repositorioEquipamento = repositorioEquipamento;
-
-        TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
+        TelaFabricante telaFabricante = new TelaFabricante(repositorioFabricante, repositorioEquipamento);
+        TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioFabricante, repositorioEquipamento);
+        TelaChamado telaChamado = new TelaChamado(repositorioEquipamento, repositorioChamado);
 
         while (true)
         {

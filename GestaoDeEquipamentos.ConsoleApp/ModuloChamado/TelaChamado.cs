@@ -8,10 +8,10 @@ public class TelaChamado
     public RepositorioEquipamento repositorioEquipamento;
     public RepositorioChamado repositorioChamado;
 
-    public TelaChamado(RepositorioEquipamento repositorioEquipamento)
+    public TelaChamado(RepositorioEquipamento repositorioEquipamento, RepositorioChamado repositorioChamado)
     {
         this.repositorioEquipamento = repositorioEquipamento;
-        repositorioChamado = new RepositorioChamado();
+        this.repositorioChamado = repositorioChamado;
     }
 
     public string ApresentarMenu()

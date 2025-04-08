@@ -8,10 +8,10 @@ public class TelaEquipamento
     public RepositorioEquipamento repositorioEquipamento;
     public RepositorioFabricante repositorioFabricante;
 
-    public TelaEquipamento(RepositorioFabricante repositorioFabricante)
+    public TelaEquipamento(RepositorioFabricante repositorioFabricante, RepositorioEquipamento repositorioEquipamento)
     {
-        repositorioEquipamento = new RepositorioEquipamento();
         this.repositorioFabricante = repositorioFabricante;
+        this.repositorioEquipamento = repositorioEquipamento;
     }
 
     public string ApresentarMenu()
