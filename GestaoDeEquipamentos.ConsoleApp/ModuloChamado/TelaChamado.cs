@@ -40,7 +40,17 @@ public class TelaChamado
 
         Chamado novoChamado = ObterDadosChamado();
 
-        repositorioChamado.CadastrarChamado(novoChamado);
+        bool conseguiuCadastrar = repositorioChamado.CadastrarChamado(novoChamado);
+
+        if (!conseguiuCadastrar)
+        {
+            Console.WriteLine("Houve um erro durante o cadastro...");
+            Console.ReadLine();
+            return;
+        }
+
+        Console.WriteLine("Chamado cadastrado com sucesso!");
+        Console.ReadLine();
     }
 
     public void EditarChamado()
@@ -66,7 +76,6 @@ public class TelaChamado
         Chamado novoChamado = ObterDadosChamado();
 
         bool conseguiuEditar = repositorioChamado.EditarChamado(idSelecionado, novoChamado);
-
 
         if (!conseguiuEditar)
         {
@@ -218,6 +227,8 @@ public class TelaChamado
         } while (!idValido);
 
         Equipamento equipamentoSelecionado = repositorioEquipamento.SelecionarEquipamentoPorId(idEquipamento);
+
+        if (equipamentoSelecionado == null) return null;
 
         Chamado novoChamado = new Chamado(titulo, descricao, equipamentoSelecionado);
 

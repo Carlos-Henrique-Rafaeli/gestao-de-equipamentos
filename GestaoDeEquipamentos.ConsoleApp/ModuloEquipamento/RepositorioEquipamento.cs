@@ -7,15 +7,21 @@ public class RepositorioEquipamento
     public Equipamento[] equipamentos = new Equipamento[100];
     int contadorEquipamentos = 0;
 
-    public void CadastarEquipamento(Equipamento novoEquipamento)
+    public bool CadastarEquipamento(Equipamento novoEquipamento)
     {
+        if (novoEquipamento == null) return false;
+
         novoEquipamento.id = GeradorIds.GerarIdEquipamento();
 
         equipamentos[contadorEquipamentos++] = novoEquipamento;
+        
+        return true;
     }
 
     public bool EditarEquipamento(int idEquipamento, Equipamento equipamentoEditado)
     {
+        if (equipamentoEditado == null) return false;
+
         for (int i = 0; i < equipamentos.Length; i++)
         {
             if (equipamentos[i] == null) continue;

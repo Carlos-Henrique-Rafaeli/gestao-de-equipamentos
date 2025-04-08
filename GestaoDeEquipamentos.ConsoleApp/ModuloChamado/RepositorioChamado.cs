@@ -8,15 +8,21 @@ public class RepositorioChamado
     Chamado[] chamados = new Chamado[100];
     int contadorChamados = 0;
 
-    public void CadastrarChamado(Chamado novoChamado)
+    public bool CadastrarChamado(Chamado novoChamado)
     {
+        if (novoChamado == null) return false;
+
         novoChamado.id = GeradorIds.GerarIdChamado();
 
         chamados[contadorChamados++] = novoChamado;
+
+        return true;
     }
 
     public bool EditarChamado(int idChamado, Chamado novoChamado)
     {
+        if (novoChamado == null) return false;
+
         for (int i = 0; i < chamados.Length; i++)
         {
             if (chamados[i] == null)
