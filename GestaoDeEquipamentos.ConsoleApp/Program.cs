@@ -18,6 +18,8 @@ internal class Program
         TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioFabricante);
 
         RepositorioEquipamento repositorioEquipamento = telaEquipamento.repositorioEquipamento;
+        
+        telaFabricante.repositorioEquipamento = repositorioEquipamento;
 
         TelaChamado telaChamado = new TelaChamado(repositorioEquipamento);
 
@@ -30,6 +32,28 @@ internal class Program
             switch (opcaoEscolhida)
             {
                 case "1":
+                    while (deveRodar)
+                    {
+                        opcaoEscolhida = telaFabricante.ApresentarMenu();
+
+                        switch (opcaoEscolhida)
+                        {
+                            case "1": telaFabricante.CadastrarEquipamento(); break;
+
+                            case "2": telaFabricante.EditarFabricante(); break;
+
+                            case "3": telaFabricante.ExcluirFabricante(); break;
+
+                            case "4": telaFabricante.VisualizarFabricantes(true); break;
+
+                            case "S": deveRodar = false; break;
+
+                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
+                        }
+                    }
+                    break;
+
+                case "2":
                     while (deveRodar)
                     {
                         opcaoEscolhida = telaEquipamento.ApresentarMenu();
@@ -51,7 +75,7 @@ internal class Program
                     }
                     break;
 
-                case "2":
+                case "3":
                     while (deveRodar)
                     {
                         opcaoEscolhida = telaChamado.ApresentarMenu();
@@ -65,28 +89,6 @@ internal class Program
                             case "3": telaChamado.ExcluirChamado(); break;
 
                             case "4": telaChamado.VisualizarChamado(true); break;
-
-                            case "S": deveRodar = false; break;
-
-                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
-                        }
-                    }
-                    break;
-
-                case "3":
-                    while (deveRodar)
-                    {
-                        opcaoEscolhida = telaFabricante.ApresentarMenu();
-
-                        switch (opcaoEscolhida)
-                        {
-                            case "1": telaFabricante.CadastrarEquipamento(); break;
-
-                            case "2": telaFabricante.EditarFabricante(); break;
-
-                            case "3": telaFabricante.ExcluirFabricante(); break;
-
-                            case "4": telaFabricante.VisualizarFabricantes(true); break;
 
                             case "S": deveRodar = false; break;
 

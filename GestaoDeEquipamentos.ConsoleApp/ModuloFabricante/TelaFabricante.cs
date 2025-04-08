@@ -5,6 +5,7 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 public class TelaFabricante
 {
     public RepositorioFabricante repositorioFabricante;
+    public RepositorioEquipamento repositorioEquipamento;
 
     public TelaFabricante()
     {
@@ -130,8 +131,8 @@ public class TelaFabricante
         }
 
         Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
-            "Id", "Nome", "E-Mail", "Telefone"
+            "{0, -10} | {1, -15} | {2, -30} | {3, -15} | {4, -20}",
+            "Id", "Nome", "E-Mail", "Telefone", "Qtd. Equipamentos"
         );
 
         Fabricante[] equipamentosCadastrados = repositorioFabricante.SelecionarEquipamentos();
@@ -143,8 +144,8 @@ public class TelaFabricante
             if (f == null) continue;
 
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
-            f.id, f.nome, f.email, f.telefone
+            "{0, -10} | {1, -15} | {2, -30} | {3, -15} | {4, -20}",
+            f.id, f.nome, f.email, f.telefone, repositorioEquipamento.ObterQuantidadeEquipamentos(f.id)
             );
         }
 

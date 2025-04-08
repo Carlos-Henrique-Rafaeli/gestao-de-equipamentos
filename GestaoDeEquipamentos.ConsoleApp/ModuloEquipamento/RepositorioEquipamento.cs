@@ -1,4 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
@@ -76,5 +77,15 @@ public class RepositorioEquipamento
         }
 
         return null;
+    }
+
+    public int ObterQuantidadeEquipamentos(int idFabricante)
+    {
+        int contador = 0;
+
+        foreach (Equipamento e in equipamentos)
+            if (e != null && e.fabricante.id == idFabricante) contador++;
+
+        return contador;
     }
 }
