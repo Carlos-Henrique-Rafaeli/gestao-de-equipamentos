@@ -39,6 +39,19 @@ public class TelaEquipamento
         Console.WriteLine("-------------------------------------");
         Equipamento novoEquipamento = ObterDadosEquipamentos();
 
+        string erros = novoEquipamento.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            CadastrarEquipamento();
+
+            return;
+        }
+
         bool conseguiuCadastrar = repositorioEquipamento.CadastarEquipamento(novoEquipamento);
 
         if (!conseguiuCadastrar)
@@ -78,8 +91,6 @@ public class TelaEquipamento
         } while (!fabricanteValido);
 
         Fabricante novoFabricante = repositorioFabricante.SelecionarEquipamentoPorId(idFabricante);
-
-        if (novoFabricante == null) return null;
 
         decimal precoAquisicao;
         bool precoValido;
@@ -129,6 +140,19 @@ public class TelaEquipamento
         } while (!idValido);
 
         Equipamento novoEquipamento = ObterDadosEquipamentos();
+
+        string erros = novoEquipamento.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            EditarEquipamento();
+
+            return;
+        }
 
         bool conseguiuEditar = repositorioEquipamento.EditarEquipamento(idSelecionado, novoEquipamento);
         

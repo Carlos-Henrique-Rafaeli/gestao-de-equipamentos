@@ -1,5 +1,4 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
@@ -10,7 +9,7 @@ public class RepositorioChamado
 
     public bool CadastrarChamado(Chamado novoChamado)
     {
-        if (novoChamado == null) return false;
+        if (novoChamado.equipamento == null) return false;
 
         novoChamado.id = GeradorIds.GerarIdChamado();
 

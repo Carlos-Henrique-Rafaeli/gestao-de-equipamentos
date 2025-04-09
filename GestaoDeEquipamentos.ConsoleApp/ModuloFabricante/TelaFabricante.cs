@@ -1,4 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
@@ -39,6 +40,19 @@ public class TelaFabricante
         
         Fabricante novoFabricante = ObterDadosFabricante();
 
+        string erros = novoFabricante.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            CadastrarEquipamento();
+
+            return;
+        }
+
         repositorioFabricante.CadastarFabricante(novoFabricante);
     }
 
@@ -63,6 +77,19 @@ public class TelaFabricante
         } while (!idValido);
 
         Fabricante novoFabricante = ObterDadosFabricante();
+
+        string erros = novoFabricante.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            EditarFabricante();
+
+            return;
+        }
 
         bool conseguiuEditar = repositorioFabricante.EditarEquipamento(idSelecionado, novoFabricante);
 
@@ -155,17 +182,22 @@ public class TelaFabricante
 
     public Fabricante ObterDadosFabricante()
     {
-        Console.Write("Digite o nome do Fabricante: ");
-        string nome = Console.ReadLine()!;
+        string nome;
+        do
+        {
+            Console.Write("Digite o nome do Fabricante: ");
+            nome = Console.ReadLine()!;
+            if (string.IsNullOrWhiteSpace(nome) && nome.Length < 3) Console.WriteLine("\nNome Inválido...\n");
+        } while (string.IsNullOrWhiteSpace(nome) && nome.Length < 3);
 
         string email;
         do
         {
             Console.Write("Digite o e-mail do fabricante: ");
             email = Console.ReadLine()!;
-            if (string.IsNullOrEmpty(email)) Console.WriteLine("\nE-mail Inválido...\n");
+            if (!MailAddress.TryCreate(email, out _)) Console.WriteLine("\nE-mail Inválido...\n");
 
-        } while (string.IsNullOrEmpty(email));
+        } while (!MailAddress.TryCreate(email, out _));
 
         string telefone;
         do
@@ -173,8 +205,8 @@ public class TelaFabricante
             Console.Write("Digite o telefone do fabricante: ");
             telefone = Console.ReadLine()!;
 
-            if (String.IsNullOrEmpty(telefone)) Console.WriteLine("\nTelefone Inválido...\n");
-        } while (String.IsNullOrEmpty(telefone));
+            if (telefone.Length < 11) Console.WriteLine("\nTelefone necessita estar no formato 00 0000-0000...\n");
+        } while (telefone.Length < 11);
 
         Fabricante novoFabricante = new Fabricante(nome, email, telefone);
         return novoFabricante;

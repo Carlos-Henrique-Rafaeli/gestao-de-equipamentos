@@ -1,5 +1,4 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
@@ -40,6 +39,19 @@ public class TelaChamado
 
         Chamado novoChamado = ObterDadosChamado();
 
+        string erros = novoChamado.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            CadastrarChamado();
+
+            return;
+        }
+
         bool conseguiuCadastrar = repositorioChamado.CadastrarChamado(novoChamado);
 
         if (!conseguiuCadastrar)
@@ -74,6 +86,18 @@ public class TelaChamado
         } while (!idValido);
 
         Chamado novoChamado = ObterDadosChamado();
+
+        string erros = novoChamado.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            EditarChamado();
+
+            return;
+        }
 
         bool conseguiuEditar = repositorioChamado.EditarChamado(idSelecionado, novoChamado);
 

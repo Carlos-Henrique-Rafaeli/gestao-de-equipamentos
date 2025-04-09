@@ -1,5 +1,4 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
@@ -10,7 +9,7 @@ public class RepositorioEquipamento
 
     public bool CadastarEquipamento(Equipamento novoEquipamento)
     {
-        if (novoEquipamento == null) return false;
+        if (novoEquipamento.fabricante == null) return false;
 
         novoEquipamento.id = GeradorIds.GerarIdEquipamento();
 
