@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
@@ -53,7 +54,7 @@ public class TelaFabricante
             return;
         }
 
-        repositorioFabricante.CadastarFabricante(novoFabricante);
+        repositorioFabricante.CadastrarRegistro(novoFabricante);
     }
 
     public void EditarFabricante()
@@ -91,7 +92,7 @@ public class TelaFabricante
             return;
         }
 
-        bool conseguiuEditar = repositorioFabricante.EditarEquipamento(idSelecionado, novoFabricante);
+        bool conseguiuEditar = repositorioFabricante.EditarRegistro(idSelecionado, novoFabricante);
 
 
         if (!conseguiuEditar)
@@ -126,7 +127,7 @@ public class TelaFabricante
         } while (!idValido);
 
 
-        bool conseguiuExcluir = repositorioFabricante.ExcluirEquipamento(idSelecionado);
+        bool conseguiuExcluir = repositorioFabricante.ExcluirRegistro(idSelecionado);
 
 
         if (!conseguiuExcluir)
@@ -159,21 +160,25 @@ public class TelaFabricante
         }
 
         Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -30} | {3, -15} | {4, -20}",
-            "Id", "Nome", "E-Mail", "Telefone", "Qtd. Equipamentos"
+            "{0, -6} | {1, -20} | {2, -30} | {3, -30} | {4, -20}",
+            "Id", "Nome", "Email", "Telefone", "Qtd. Equipamentos"
         );
 
-        Fabricante[] equipamentosCadastrados = repositorioFabricante.SelecionarEquipamentos();
+        EntidadeBase[] registros = repositorioFabricante.SelecionarRegistros();
+        Fabricante[] fabricantesCadastrados = new Fabricante[registros.Length];
 
-        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        for (int i = 0; i < registros.Length; i++)
+            fabricantesCadastrados[i] = (Fabricante)registros[i];
+
+        for (int i = 0; i < fabricantesCadastrados.Length; i++)
         {
-            Fabricante f = equipamentosCadastrados[i];
+            Fabricante f = fabricantesCadastrados[i];
 
             if (f == null) continue;
 
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -30} | {3, -15} | {4, -20}",
-            f.id, f.nome, f.email, f.telefone, repositorioEquipamento.ObterQuantidadeEquipamentos(f.id)
+                "{0, -6} | {1, -20} | {2, -30} | {3, -30} | {4, -20}",
+                f.Id, f.Nome, f.Email, f.Telefone, f.QuantidadeEquipamentos
             );
         }
 

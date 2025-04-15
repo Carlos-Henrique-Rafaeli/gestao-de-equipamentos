@@ -1,4 +1,6 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
@@ -52,14 +54,7 @@ public class TelaChamado
             return;
         }
 
-        bool conseguiuCadastrar = repositorioChamado.CadastrarChamado(novoChamado);
-
-        if (!conseguiuCadastrar)
-        {
-            Console.WriteLine("Houve um erro durante o cadastro...");
-            Console.ReadLine();
-            return;
-        }
+        repositorioChamado.CadastrarRegistro(novoChamado);
 
         Console.WriteLine("Chamado cadastrado com sucesso!");
         Console.ReadLine();
@@ -99,7 +94,7 @@ public class TelaChamado
             return;
         }
 
-        bool conseguiuEditar = repositorioChamado.EditarChamado(idSelecionado, novoChamado);
+        bool conseguiuEditar = repositorioChamado.EditarRegistro(idSelecionado, novoChamado);
 
         if (!conseguiuEditar)
         {
@@ -132,7 +127,7 @@ public class TelaChamado
 
         } while (!idValido);
 
-        bool conseguiuExcluir = repositorioChamado.ExcluirChamado(idSelecionado);
+        bool conseguiuExcluir = repositorioChamado.ExcluirRegistro(idSelecionado);
 
         if (!conseguiuExcluir)
         {
@@ -156,11 +151,15 @@ public class TelaChamado
         }
 
         Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -15} | {3, -15} | {4, -17} | {5, -10}",
+            "{0, -10} | {1, -15} | {2, -15} | {3, -15} | {4, -17} | {5, -15}",
             "Id", "Título", "Descrição", "Equipamento", "Data de Abertura", "Dias Abertos"
         );
 
-        Chamado[] chamadosCadastrados = repositorioChamado.SelecionarChamados();
+        EntidadeBase[] registros = repositorioChamado.SelecionarRegistros();
+        Chamado[] chamadosCadastrados = new Chamado[registros.Length];
+
+        for (int i = 0; i < registros.Length; i++)
+            chamadosCadastrados[i] = (Chamado)registros[i];
 
         for (int i = 0; i < chamadosCadastrados.Length; i++)
         {
@@ -168,13 +167,12 @@ public class TelaChamado
 
             if (c == null) continue;
 
-            TimeSpan diferencaTempo = DateTime.Now - c.dataAbertura;
-            int diasPassados = (int)diferencaTempo.TotalDays;
+            string tempoDecorrido = $"{c.TempoDecorrido} dias";
 
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -15} | {3, -15} | {4, -17} | {5, -10}",
-            c.id, c.titulo, c.descricao, c.equipamento.nome, c.dataAbertura.ToShortDateString(), diasPassados
-        );
+            "{0, -10} | {1, -15} | {2, -15} | {3, -15} | {4, -17} | {5, -15}",
+            c.Id, c.Titulo, c.Descricao, c.Equipamento.Nome, c.DataAbertura.ToShortDateString(), tempoDecorrido
+            );
         }
 
         if (exibirTitulo) Console.ReadLine();
@@ -192,7 +190,13 @@ public class TelaChamado
             "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
         );
 
-        Equipamento[] equipamentosCadastrados = repositorioEquipamento.SelecionarEquipamentos();
+        EntidadeBase[] registros = repositorioEquipamento.SelecionarRegistros();
+
+        Equipamento[] equipamentosCadastrados = new Equipamento[registros.Length];
+
+        for (int i = 0; i < registros.Length; i++)
+            equipamentosCadastrados[i] = (Equipamento)registros[i];
+
 
         for (int i = 0; i < equipamentosCadastrados.Length; i++)
         {
@@ -201,8 +205,8 @@ public class TelaChamado
             if (e == null) continue;
 
             Console.WriteLine(
-                "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-                e.id, e.nome, e.ObterNumeroSerie(), e.fabricante.nome, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+            e.Id, e.Nome, e.NumeroSerie, e.Fabricante.Nome, e.PrecoAquisicao.ToString("C2"), e.DataFabricacao.ToShortDateString()
             );
         }
 
@@ -250,7 +254,7 @@ public class TelaChamado
 
         } while (!idValido);
 
-        Equipamento equipamentoSelecionado = repositorioEquipamento.SelecionarEquipamentoPorId(idEquipamento);
+        Equipamento equipamentoSelecionado = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idEquipamento);
 
         if (equipamentoSelecionado == null) return null;
 

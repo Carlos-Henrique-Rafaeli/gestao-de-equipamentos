@@ -1,4 +1,5 @@
-﻿using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
+﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
@@ -52,16 +53,110 @@ public class TelaEquipamento
             return;
         }
 
-        bool conseguiuCadastrar = repositorioEquipamento.CadastarEquipamento(novoEquipamento);
+        Fabricante fabricante = novoEquipamento.Fabricante;
 
-        if (!conseguiuCadastrar)
+        fabricante.AdicionarEquipamento(novoEquipamento);
+
+        repositorioEquipamento.CadastrarRegistro(novoEquipamento);
+
+        Console.WriteLine("Equipamento cadastrado com sucesso!");
+        Console.ReadLine();
+    }
+    public void EditarEquipamento()
+    {
+        ExibirCabecalho();
+
+        Console.WriteLine("Editando Equipamento...");
+        Console.WriteLine("-------------------------------------");
+        
+        VisualizarEquipamentos(false);
+
+        int idSelecionado;
+        bool idValido;
+        do
         {
-            Console.WriteLine("Houve um erro durante o cadastro...");
+            Console.Write("Digite o Id do registro que deseja selecionar: ");
+            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
+
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!idValido);
+
+        Equipamento equipamentoAntigo = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
+        Fabricante fabricanteAntigo = equipamentoAntigo.Fabricante;
+
+        Equipamento equipamentoEditado = ObterDadosEquipamentos();
+        Fabricante fabricanteEditado = equipamentoEditado.Fabricante;
+
+        string erros = equipamentoEditado.Validar();
+
+        if (erros.Length > 0)
+        {
+            Console.WriteLine();
+            Console.WriteLine(erros);
+            Console.ReadLine();
+
+            EditarEquipamento();
+
+            return;
+        }
+
+        bool conseguiuEditar = repositorioEquipamento.EditarRegistro(idSelecionado, equipamentoEditado);
+        
+        if (!conseguiuEditar)
+        {
+            Console.WriteLine("Houve um erro durante a edição...");
             Console.ReadLine();
             return;
         }
 
-        Console.WriteLine("Equipamento cadastrado com sucesso!");
+        if (fabricanteAntigo != fabricanteEditado)
+        {
+            fabricanteAntigo.RemoverEquipamento(equipamentoAntigo);
+
+            fabricanteEditado.AdicionarEquipamento(equipamentoEditado);
+        }
+
+        Console.WriteLine("Equipamento editado com sucesso!");
+        Console.ReadLine();
+    }
+    
+    public void ExcluirEquipamento()
+    {
+        ExibirCabecalho();
+
+        Console.WriteLine("Excluindo Equipamento...");
+        Console.WriteLine("-------------------------------------");
+
+        VisualizarEquipamentos(false);
+
+        int idSelecionado;
+        bool idValido;
+        do
+        {
+            Console.Write("Digite o Id do registro que deseja excluir: ");
+            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
+
+            if (!idValido) Console.WriteLine("\nId Inválido...\n");
+
+        } while (!idValido);
+
+        Equipamento equipamentoSelecionado = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
+
+        bool conseguiuExcluir = repositorioEquipamento.ExcluirRegistro(idSelecionado);
+
+        if (!conseguiuExcluir)
+        {
+            Console.WriteLine("Houve um erro durante a exclusão...");
+            Console.ReadLine();
+            return;
+        }
+
+        Fabricante fabricanteSelecionado = equipamentoSelecionado.Fabricante;
+
+        fabricanteSelecionado.RemoverEquipamento(equipamentoSelecionado);
+
+        Console.WriteLine("Equipamento excluído com sucesso!");
         Console.ReadLine();
     }
 
@@ -90,7 +185,7 @@ public class TelaEquipamento
 
         } while (!fabricanteValido);
 
-        Fabricante novoFabricante = repositorioFabricante.SelecionarEquipamentoPorId(idFabricante);
+        Fabricante novoFabricante = (Fabricante)repositorioFabricante.SelecionarRegistroPorId(idFabricante);
 
         decimal precoAquisicao;
         bool precoValido;
@@ -117,91 +212,6 @@ public class TelaEquipamento
         return novoEquipamento;
     }
 
-    
-
-    public void EditarEquipamento()
-    {
-        ExibirCabecalho();
-
-        Console.WriteLine("Editando Equipamento...");
-        Console.WriteLine("-------------------------------------");
-        
-        VisualizarEquipamentos(false);
-
-        int idSelecionado;
-        bool idValido;
-        do
-        {
-            Console.Write("Digite o Id do registro que deseja selecionar: ");
-            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
-
-            if (!idValido) Console.WriteLine("\nId Inválido...\n");
-
-        } while (!idValido);
-
-        Equipamento novoEquipamento = ObterDadosEquipamentos();
-
-        string erros = novoEquipamento.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine();
-            Console.WriteLine(erros);
-            Console.ReadLine();
-
-            EditarEquipamento();
-
-            return;
-        }
-
-        bool conseguiuEditar = repositorioEquipamento.EditarEquipamento(idSelecionado, novoEquipamento);
-        
-        if (!conseguiuEditar)
-        {
-            Console.WriteLine("Houve um erro durante a edição...");
-            Console.ReadLine();
-            return;
-        }
-
-        Console.WriteLine("Equipamento editado com sucesso!");
-        Console.ReadLine();
-    }
-    
-    public void ExcluirEquipamento()
-    {
-        ExibirCabecalho();
-
-        Console.WriteLine("Excluindo Equipamento...");
-        Console.WriteLine("-------------------------------------");
-
-        VisualizarEquipamentos(false);
-
-        int idSelecionado;
-        bool idValido;
-        do
-        {
-            Console.Write("Digite o Id do registro que deseja excluir: ");
-            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
-
-            if (!idValido) Console.WriteLine("\nId Inválido...\n");
-
-        } while (!idValido);
-        
-
-        bool conseguiuExcluir = repositorioEquipamento.ExcluirEquipamento(idSelecionado);
-
-
-        if (!conseguiuExcluir)
-        {
-            Console.WriteLine("Houve um erro durante a exclusão...");
-            Console.ReadLine();
-            return;
-        }
-
-        Console.WriteLine("Equipamento excluído com sucesso!");
-        Console.ReadLine();
-    }
-
     private void ExibirCabecalho()
     {
         Console.Clear();
@@ -225,7 +235,13 @@ public class TelaEquipamento
             "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
         );
 
-        Equipamento[] equipamentosCadastrados = repositorioEquipamento.SelecionarEquipamentos();
+        EntidadeBase[] registros = repositorioEquipamento.SelecionarRegistros();
+
+        Equipamento[] equipamentosCadastrados = new Equipamento[registros.Length];
+
+        for (int i = 0; i < registros.Length; i++)
+            equipamentosCadastrados[i] = (Equipamento)registros[i];
+
 
         for (int i = 0; i < equipamentosCadastrados.Length; i++)
         {
@@ -235,7 +251,7 @@ public class TelaEquipamento
 
             Console.WriteLine(
             "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-            e.id, e.nome, e.ObterNumeroSerie(), e.fabricante.nome, e.precoAquisicao.ToString("C2"), e.dataFabricacao.ToShortDateString()
+            e.Id, e.Nome, e.NumeroSerie, e.Fabricante.Nome, e.PrecoAquisicao.ToString("C2"), e.DataFabricacao.ToShortDateString()
             );
         }
 
@@ -249,17 +265,21 @@ public class TelaEquipamento
         "Id", "Nome", "E-Mail", "Telefone"
         );
 
-        Fabricante[] equipamentosCadastrados = repositorioFabricante.SelecionarEquipamentos();
+        EntidadeBase[] registros = repositorioFabricante.SelecionarRegistros();
+        Fabricante[] fabricantesCadastrados = new Fabricante[registros.Length];
 
-        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        for (int i = 0; i < registros.Length; i++)
+            fabricantesCadastrados[i] = (Fabricante)registros[i];
+
+        for (int i = 0; i < fabricantesCadastrados.Length; i++)
         {
-            Fabricante f = equipamentosCadastrados[i];
+            Fabricante f = fabricantesCadastrados[i];
 
             if (f == null) continue;
 
             Console.WriteLine(
             "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
-            f.id, f.nome, f.email, f.telefone
+            f.Id, f.Nome, f.Email, f.Telefone
             );
         }
         Console.WriteLine();
