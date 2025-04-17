@@ -28,7 +28,7 @@ public class Chamado : EntidadeBase
         DataAbertura = DateTime.Now;
     }
 
-    public string Validar()
+    public override string Validar()
     {
         string erros = "";
 

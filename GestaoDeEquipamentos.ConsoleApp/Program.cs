@@ -9,93 +9,36 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        RepositorioFabricante repositorioFabricante = new RepositorioFabricante();
-        RepositorioEquipamento repositorioEquipamento = new RepositorioEquipamento();
-        RepositorioChamado repositorioChamado = new RepositorioChamado();
-
         TelaPrincipal telaPrincipal = new TelaPrincipal();
-        
-        TelaFabricante telaFabricante = new TelaFabricante(repositorioFabricante, repositorioEquipamento);
-        TelaEquipamento telaEquipamento = new TelaEquipamento(repositorioFabricante, repositorioEquipamento);
-        TelaChamado telaChamado = new TelaChamado(repositorioEquipamento, repositorioChamado);
 
         while (true)
         {
             bool deveRodar = true;
 
-            string opcaoEscolhida = telaPrincipal.ApresentarMenu();
+            telaPrincipal.ApresentarMenuPrincipal();
 
-            switch (opcaoEscolhida)
+            TelaBase telaSelecionada = telaPrincipal.ObterTela();
+
+            if (telaSelecionada == null) return;
+
+            while (deveRodar)
             {
-                case "1":
-                    while (deveRodar)
-                    {
-                        opcaoEscolhida = telaFabricante.ApresentarMenu();
+                string opcaoEscolhida = telaSelecionada.ApresentarMenu();
 
-                        switch (opcaoEscolhida)
-                        {
-                            case "1": telaFabricante.CadastrarEquipamento(); break;
+                switch (opcaoEscolhida)
+                {
+                    case "1": telaSelecionada.CadastrarRegistro(); break;
 
-                            case "2": telaFabricante.EditarFabricante(); break;
+                    case "2": telaSelecionada.EditarRegistro(); break;
 
-                            case "3": telaFabricante.ExcluirFabricante(); break;
+                    case "3": telaSelecionada.ExcluirRegistro(); break;
 
-                            case "4": telaFabricante.VisualizarFabricantes(true); break;
+                    case "4": telaSelecionada.VisualizarRegistros(true); break;
 
-                            case "S": deveRodar = false; break;
+                    case "S": deveRodar = false; break;
 
-                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
-                        }
-                    }
-                    break;
-
-                case "2":
-                    while (deveRodar)
-                    {
-                        opcaoEscolhida = telaEquipamento.ApresentarMenu();
-                        
-                        switch (opcaoEscolhida)
-                        {
-                            case "1": telaEquipamento.CadastrarEquipamento(); break;
-
-                            case "2": telaEquipamento.EditarEquipamento(); break;
-                            
-                            case "3": telaEquipamento.ExcluirEquipamento(); break;
-                            
-                            case "4": telaEquipamento.VisualizarEquipamentos(true); break;
-                            
-                            case "S": deveRodar = false; break;
-
-                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
-                        }
-                    }
-                    break;
-
-                case "3":
-                    while (deveRodar)
-                    {
-                        opcaoEscolhida = telaChamado.ApresentarMenu();
-
-                        switch (opcaoEscolhida)
-                        {
-                            case "1": telaChamado.CadastrarChamado(); break;
-
-                            case "2": telaChamado.EditarChamado(); break;
-
-                            case "3": telaChamado.ExcluirChamado(); break;
-
-                            case "4": telaChamado.VisualizarChamado(true); break;
-
-                            case "S": deveRodar = false; break;
-
-                            default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
-                        }
-                    }
-                    break;
-
-                case "S": return;
-
-                default: Console.WriteLine("Opção Inválida..."); Console.ReadLine(); break;
+                    default: Console.WriteLine("Opção Inválida!"); Console.ReadLine(); break;
+                }
             }
         }
     }

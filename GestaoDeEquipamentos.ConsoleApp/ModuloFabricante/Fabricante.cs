@@ -34,7 +34,7 @@ public class Fabricante : EntidadeBase
         Equipamentos = new Equipamento[100];
     }
 
-    public string Validar()
+    public override string Validar()
     {
         string erros = "";
 

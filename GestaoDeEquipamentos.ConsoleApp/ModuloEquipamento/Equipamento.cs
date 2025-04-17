@@ -28,7 +28,7 @@ public class Equipamento : EntidadeBase
     }
 
 
-    public string Validar()
+    public override string Validar()
     {
         string erros = "";
 

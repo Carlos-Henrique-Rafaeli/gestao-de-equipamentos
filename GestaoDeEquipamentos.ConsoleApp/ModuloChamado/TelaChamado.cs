@@ -4,143 +4,19 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
-public class TelaChamado
+public class TelaChamado : TelaBase
 {
     public RepositorioEquipamento repositorioEquipamento;
     public RepositorioChamado repositorioChamado;
 
-    public TelaChamado(RepositorioEquipamento repositorioEquipamento, RepositorioChamado repositorioChamado)
+    public TelaChamado(RepositorioEquipamento repositorioEquipamento, 
+        RepositorioChamado repositorioChamado)
+        : base("Chamado", repositorioChamado)
     {
         this.repositorioEquipamento = repositorioEquipamento;
         this.repositorioChamado = repositorioChamado;
     }
-
-    public string ApresentarMenu()
-    {
-        ExibirCabecalho();
-
-        Console.WriteLine("Escolha a operação desejada:");
-        Console.WriteLine("1 - Cadastro de Chamado");
-        Console.WriteLine("2 - Edição de Chamado");
-        Console.WriteLine("3 - Exclusão de Chamado");
-        Console.WriteLine("4 - Visualizar Chamados");
-        Console.WriteLine("S - Voltar ao Menu");
-        Console.WriteLine("-------------------------------------");
-
-        Console.Write("Digite uma opção válida: ");
-        string opcaoEscolhida = Console.ReadLine()!.ToUpper();
-        return opcaoEscolhida;
-    }
-
-    public void CadastrarChamado()
-    {
-        ExibirCabecalho();
-
-        Console.WriteLine("Cadastrando Chamado...");
-        Console.WriteLine("-------------------------------------");
-
-        Chamado novoChamado = ObterDadosChamado();
-
-        string erros = novoChamado.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine();
-            Console.WriteLine(erros);
-            Console.ReadLine();
-
-            CadastrarChamado();
-
-            return;
-        }
-
-        repositorioChamado.CadastrarRegistro(novoChamado);
-
-        Console.WriteLine("Chamado cadastrado com sucesso!");
-        Console.ReadLine();
-    }
-
-    public void EditarChamado()
-    {
-        ExibirCabecalho();
-
-        Console.WriteLine("Editando Chamado...");
-        Console.WriteLine("-------------------------------------");
-
-        VisualizarChamado(false);
-
-        int idSelecionado;
-        bool idValido;
-        do
-        {
-            Console.Write("Digite o Id do registro que deseja selecionar: ");
-            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
-
-            if (!idValido) Console.WriteLine("\nId Inválido...\n");
-
-        } while (!idValido);
-
-        Chamado novoChamado = ObterDadosChamado();
-
-        string erros = novoChamado.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine(erros);
-            Console.ReadLine();
-
-            EditarChamado();
-
-            return;
-        }
-
-        bool conseguiuEditar = repositorioChamado.EditarRegistro(idSelecionado, novoChamado);
-
-        if (!conseguiuEditar)
-        {
-            Console.WriteLine("Erro ao editar chamado...");
-            Console.ReadLine();
-            return;
-        }
-
-        Console.WriteLine("Chamado editado com sucesso!");
-        Console.ReadLine();
-    }
-
-    public void ExcluirChamado()
-    {
-        ExibirCabecalho();
-
-        Console.WriteLine("Excluindo Chamado...");
-        Console.WriteLine("-------------------------------------");
-
-        VisualizarChamado(false);
-
-        int idSelecionado;
-        bool idValido;
-        do
-        {
-            Console.Write("Digite o Id do registro que deseja excluir: ");
-            idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
-
-            if (!idValido) Console.WriteLine("\nId Inválido...\n");
-
-        } while (!idValido);
-
-        bool conseguiuExcluir = repositorioChamado.ExcluirRegistro(idSelecionado);
-
-        if (!conseguiuExcluir)
-        {
-            Console.WriteLine("Houve um erro durante a exclusão...");
-            Console.ReadLine();
-            return;
-        }
-
-        Console.WriteLine("Chamado excluído com sucesso!");
-        Console.ReadLine();
-    }
-
-    public void VisualizarChamado(bool exibirTitulo)
+    public override void VisualizarRegistros(bool exibirTitulo)
     {
         if (exibirTitulo)
         {
@@ -213,15 +89,7 @@ public class TelaChamado
         Console.WriteLine();
     }
 
-    private void ExibirCabecalho()
-    {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("|        Controle de Chamados       |");
-        Console.WriteLine("-------------------------------------");
-    }
-
-    public Chamado ObterDadosChamado()
+    public override Chamado ObterDados()
     {
         string titulo;
         do

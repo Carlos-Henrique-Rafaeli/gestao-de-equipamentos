@@ -3,52 +3,39 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
-public class TelaEquipamento
+public class TelaEquipamento : TelaBase
 {
 
     public RepositorioEquipamento repositorioEquipamento;
     public RepositorioFabricante repositorioFabricante;
 
-    public TelaEquipamento(RepositorioFabricante repositorioFabricante, RepositorioEquipamento repositorioEquipamento)
+    public TelaEquipamento(RepositorioFabricante repositorioFabricante, 
+        RepositorioEquipamento repositorioEquipamento)
+        : base("Equipamento", repositorioEquipamento)
     {
         this.repositorioFabricante = repositorioFabricante;
         this.repositorioEquipamento = repositorioEquipamento;
     }
-
-    public string ApresentarMenu()
+    public override void CadastrarRegistro()
     {
         ExibirCabecalho();
 
-        Console.WriteLine("Escolha a operação desejada:");
-        Console.WriteLine("1 - Cadastro de Equipamento");
-        Console.WriteLine("2 - Edição de Equipamento");
-        Console.WriteLine("3 - Exclusão de Equipamento");
-        Console.WriteLine("4 - Visualização de Equipamentos");
-        Console.WriteLine("S - Voltar ao Menu");
-        Console.WriteLine("-------------------------------------");
-
-        Console.Write("Digite uma opção válida: ");
-        string opcaoEscolhida = Console.ReadLine()!.ToUpper();
-        return opcaoEscolhida;
-    }
-
-    public void CadastrarEquipamento()
-    {
-        ExibirCabecalho();
+        Console.WriteLine();
 
         Console.WriteLine("Cadastrando Equipamento...");
-        Console.WriteLine("-------------------------------------");
-        Equipamento novoEquipamento = ObterDadosEquipamentos();
+        Console.WriteLine("--------------------------------------------");
+
+        Console.WriteLine();
+
+        Equipamento novoEquipamento = (Equipamento)ObterDados();
 
         string erros = novoEquipamento.Validar();
 
         if (erros.Length > 0)
         {
-            Console.WriteLine();
             Console.WriteLine(erros);
-            Console.ReadLine();
 
-            CadastrarEquipamento();
+            CadastrarRegistro();
 
             return;
         }
@@ -59,17 +46,19 @@ public class TelaEquipamento
 
         repositorioEquipamento.CadastrarRegistro(novoEquipamento);
 
-        Console.WriteLine("Equipamento cadastrado com sucesso!");
-        Console.ReadLine();
+        Console.WriteLine("O registro foi concluído com sucesso!");
     }
-    public void EditarEquipamento()
+
+    public override void EditarRegistro()
     {
         ExibirCabecalho();
 
+        Console.WriteLine();
+
         Console.WriteLine("Editando Equipamento...");
-        Console.WriteLine("-------------------------------------");
-        
-        VisualizarEquipamentos(false);
+        Console.WriteLine("--------------------------------------------");
+
+        VisualizarRegistros(false);
 
         int idSelecionado;
         bool idValido;
@@ -85,30 +74,11 @@ public class TelaEquipamento
         Equipamento equipamentoAntigo = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
         Fabricante fabricanteAntigo = equipamentoAntigo.Fabricante;
 
-        Equipamento equipamentoEditado = ObterDadosEquipamentos();
+        Console.WriteLine();
+
+        Equipamento equipamentoEditado = (Equipamento)ObterDados();
+
         Fabricante fabricanteEditado = equipamentoEditado.Fabricante;
-
-        string erros = equipamentoEditado.Validar();
-
-        if (erros.Length > 0)
-        {
-            Console.WriteLine();
-            Console.WriteLine(erros);
-            Console.ReadLine();
-
-            EditarEquipamento();
-
-            return;
-        }
-
-        bool conseguiuEditar = repositorioEquipamento.EditarRegistro(idSelecionado, equipamentoEditado);
-        
-        if (!conseguiuEditar)
-        {
-            Console.WriteLine("Houve um erro durante a edição...");
-            Console.ReadLine();
-            return;
-        }
 
         if (fabricanteAntigo != fabricanteEditado)
         {
@@ -117,24 +87,35 @@ public class TelaEquipamento
             fabricanteEditado.AdicionarEquipamento(equipamentoEditado);
         }
 
-        Console.WriteLine("Equipamento editado com sucesso!");
-        Console.ReadLine();
+        bool conseguiuEditar = repositorioEquipamento.EditarRegistro(idSelecionado, equipamentoEditado);
+
+        if (!conseguiuEditar)
+        {
+            Console.WriteLine("Houve um erro durante a edição de um registro...");
+
+            return;
+        }
+
+
+        Console.WriteLine("O registro foi editado com sucesso!");
     }
-    
-    public void ExcluirEquipamento()
+
+    public override void ExcluirRegistro()
     {
         ExibirCabecalho();
 
-        Console.WriteLine("Excluindo Equipamento...");
-        Console.WriteLine("-------------------------------------");
+        Console.WriteLine();
 
-        VisualizarEquipamentos(false);
+        Console.WriteLine("Excluindo Equipamento...");
+        Console.WriteLine("--------------------------------------------");
+
+        VisualizarRegistros(false);
 
         int idSelecionado;
         bool idValido;
         do
         {
-            Console.Write("Digite o Id do registro que deseja excluir: ");
+            Console.Write("Digite o Id do registro que deseja selecionar: ");
             idValido = int.TryParse(Console.ReadLine(), out idSelecionado);
 
             if (!idValido) Console.WriteLine("\nId Inválido...\n");
@@ -147,8 +128,8 @@ public class TelaEquipamento
 
         if (!conseguiuExcluir)
         {
-            Console.WriteLine("Houve um erro durante a exclusão...");
-            Console.ReadLine();
+            Console.WriteLine("Houve um erro durante a exclusão de um registro...");
+
             return;
         }
 
@@ -156,11 +137,52 @@ public class TelaEquipamento
 
         fabricanteSelecionado.RemoverEquipamento(equipamentoSelecionado);
 
-        Console.WriteLine("Equipamento excluído com sucesso!");
+        Console.WriteLine("O registro foi excluído com sucesso!");
+    }
+
+    public override void VisualizarRegistros(bool exibirTitulo)
+    {
+        if (exibirTitulo)
+            ExibirCabecalho();
+
+        Console.WriteLine();
+
+        Console.WriteLine("Visualizando Equipamentos...");
+        Console.WriteLine("--------------------------------------------");
+
+        Console.WriteLine();
+
+        Console.WriteLine(
+            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
+        );
+
+        EntidadeBase[] registros = repositorioEquipamento.SelecionarRegistros();
+
+        Equipamento[] equipamentosCadastrados = new Equipamento[registros.Length];
+
+        for (int i = 0; i < registros.Length; i++)
+            equipamentosCadastrados[i] = (Equipamento)registros[i];
+
+        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        {
+            Equipamento e = equipamentosCadastrados[i];
+
+            if (e == null) continue;
+
+            Console.WriteLine(
+                "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
+                e.Id, e.Nome, e.NumeroSerie, e.Fabricante.Nome, e.PrecoAquisicao.ToString("C2"), e.DataFabricacao.ToShortDateString()
+            );
+        }
+
+        Console.WriteLine();
+
+        Console.WriteLine("Pressione ENTER para continuar...");
         Console.ReadLine();
     }
 
-    public Equipamento ObterDadosEquipamentos()
+    public override EntidadeBase ObterDados()
     {
         string nome;
         do
@@ -172,7 +194,7 @@ public class TelaEquipamento
 
         } while (nome.Length < 6);
 
-        VisializarFabricantes();
+        VisualizarFabricantes();
 
         int idFabricante;
         bool fabricanteValido;
@@ -208,61 +230,24 @@ public class TelaEquipamento
 
         } while (!dataValida);
 
-        Equipamento novoEquipamento = new Equipamento(nome, novoFabricante, precoAquisicao, dataFabricacao);
-        return novoEquipamento;
+        Equipamento equipamento = new Equipamento(nome, novoFabricante, precoAquisicao, dataFabricacao);
+
+
+        return equipamento;
     }
 
-    private void ExibirCabecalho()
+    public void VisualizarFabricantes()
     {
-        Console.Clear();
-        Console.WriteLine("-------------------------------------");
-        Console.WriteLine("|       Controle de Equipamentos    |");
-        Console.WriteLine("-------------------------------------");
-    }
+        Console.WriteLine();
 
-    public void VisualizarEquipamentos(bool exibirTitulo)
-    {
-        if (exibirTitulo)
-        {
-            ExibirCabecalho();
+        Console.WriteLine("Visualizando Fabricantes...");
+        Console.WriteLine("----------------------------------------");
 
-            Console.WriteLine("Visualizando Equipamentos...");
-            Console.WriteLine("-------------------------------------");
-        }
+        Console.WriteLine();
 
         Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-            "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
-        );
-
-        EntidadeBase[] registros = repositorioEquipamento.SelecionarRegistros();
-
-        Equipamento[] equipamentosCadastrados = new Equipamento[registros.Length];
-
-        for (int i = 0; i < registros.Length; i++)
-            equipamentosCadastrados[i] = (Equipamento)registros[i];
-
-
-        for (int i = 0; i < equipamentosCadastrados.Length; i++)
-        {
-            Equipamento e = equipamentosCadastrados[i];
-
-            if (e == null) continue;
-
-            Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
-            e.Id, e.Nome, e.NumeroSerie, e.Fabricante.Nome, e.PrecoAquisicao.ToString("C2"), e.DataFabricacao.ToShortDateString()
-            );
-        }
-
-        if (exibirTitulo) Console.ReadLine();
-    }
-
-    public void VisializarFabricantes()
-    {
-        Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
-        "Id", "Nome", "E-Mail", "Telefone"
+            "{0, -6} | {1, -20} | {2, -30} | {3, -30} | {4, -20}",
+            "Id", "Nome", "Email", "Telefone", "Qtd. Equipamentos"
         );
 
         EntidadeBase[] registros = repositorioFabricante.SelecionarRegistros();
@@ -275,13 +260,17 @@ public class TelaEquipamento
         {
             Fabricante f = fabricantesCadastrados[i];
 
-            if (f == null) continue;
+            if (f == null)
+                continue;
 
             Console.WriteLine(
-            "{0, -10} | {1, -15} | {2, -30} | {3, -15}",
-            f.Id, f.Nome, f.Email, f.Telefone
+            "{0, -6} | {1, -20} | {2, -30} | {3, -30} | {4, -20}",
+                f.Id, f.Nome, f.Email, f.Telefone, f.QuantidadeEquipamentos
             );
         }
+
         Console.WriteLine();
+
+        Console.WriteLine("Pressione ENTER para continuar...");
     }
 }
