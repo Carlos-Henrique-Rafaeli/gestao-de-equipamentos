@@ -1,7 +1,4 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
-using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
-using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp;
 
@@ -17,7 +14,7 @@ internal class Program
 
             telaPrincipal.ApresentarMenuPrincipal();
 
-            TelaBase telaSelecionada = telaPrincipal.ObterTela();
+            ITelaCrud telaSelecionada = telaPrincipal.ObterTela();
 
             if (telaSelecionada == null) return;
 

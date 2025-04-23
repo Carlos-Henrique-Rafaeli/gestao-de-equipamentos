@@ -36,10 +36,10 @@ public class TelaPrincipal
         opcaoPrincipal = Console.ReadLine()!.ToUpper();
     }
 
-    public TelaBase ObterTela()
+    public ITelaCrud ObterTela()
     {
         if (opcaoPrincipal == "1")
-            return new TelaFabricante(repositorioFabricante, repositorioEquipamento);
+            return new TelaFabricante(repositorioFabricante);
 
         else if (opcaoPrincipal == "2")
             return new TelaEquipamento(repositorioFabricante, repositorioEquipamento);

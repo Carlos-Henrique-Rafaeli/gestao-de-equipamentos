@@ -3,7 +3,7 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
-public class Chamado : EntidadeBase
+public class Chamado : EntidadeBase<Chamado>
 {
     public int Id { get; set; }
     public string Titulo { get; set; }
@@ -47,10 +47,8 @@ public class Chamado : EntidadeBase
         return erros;
     }
 
-    public override void AtualizarRegistro(EntidadeBase registroEditado)
+    public override void AtualizarRegistro(Chamado novoChamado)
     {
-        Chamado novoChamado = (Chamado)registroEditado;
-
         Titulo = novoChamado.Titulo;
         Descricao = novoChamado.Descricao;
         Equipamento = novoChamado.Equipamento;

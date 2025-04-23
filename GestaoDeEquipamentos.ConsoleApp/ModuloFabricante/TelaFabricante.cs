@@ -4,17 +4,13 @@ using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
-public class TelaFabricante : TelaBase
+public class TelaFabricante : TelaBase<Fabricante>, ITelaCrud
 {
-    public RepositorioFabricante repositorioFabricante;
-    public RepositorioEquipamento repositorioEquipamento;
-
-    public TelaFabricante(RepositorioFabricante repositorioFabricante, 
-        RepositorioEquipamento repositorioEquipamento)
+    private RepositorioFabricante repositorioFabricante;
+    public TelaFabricante(RepositorioFabricante repositorioFabricante)
         : base("Fabricante", repositorioFabricante)
     {
         this.repositorioFabricante = repositorioFabricante;
-        this.repositorioEquipamento = repositorioEquipamento;
     }
 
     public override void VisualizarRegistros(bool exibirTitulo)
@@ -32,18 +28,10 @@ public class TelaFabricante : TelaBase
             "Id", "Nome", "Email", "Telefone", "Qtd. Equipamentos"
         );
 
-        EntidadeBase[] registros = repositorioFabricante.SelecionarRegistros();
-        Fabricante[] fabricantesCadastrados = new Fabricante[registros.Length];
+        List<Fabricante> registros = repositorioFabricante.SelecionarRegistros();
 
-        for (int i = 0; i < registros.Length; i++)
-            fabricantesCadastrados[i] = (Fabricante)registros[i];
-
-        for (int i = 0; i < fabricantesCadastrados.Length; i++)
+        foreach (var f in registros)
         {
-            Fabricante f = fabricantesCadastrados[i];
-
-            if (f == null) continue;
-
             Console.WriteLine(
                 "{0, -6} | {1, -20} | {2, -30} | {3, -30} | {4, -20}",
                 f.Id, f.Nome, f.Email, f.Telefone, f.QuantidadeEquipamentos

@@ -4,7 +4,7 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
-public class TelaChamado : TelaBase
+public class TelaChamado : TelaBase<Chamado>, ITelaCrud
 {
     public RepositorioEquipamento repositorioEquipamento;
     public RepositorioChamado repositorioChamado;
@@ -31,18 +31,10 @@ public class TelaChamado : TelaBase
             "Id", "Título", "Descrição", "Equipamento", "Data de Abertura", "Dias Abertos"
         );
 
-        EntidadeBase[] registros = repositorioChamado.SelecionarRegistros();
-        Chamado[] chamadosCadastrados = new Chamado[registros.Length];
+        List<Chamado> registros = repositorioChamado.SelecionarRegistros();
 
-        for (int i = 0; i < registros.Length; i++)
-            chamadosCadastrados[i] = (Chamado)registros[i];
-
-        for (int i = 0; i < chamadosCadastrados.Length; i++)
+        foreach (var c in registros)
         {
-            Chamado c = chamadosCadastrados[i];
-
-            if (c == null) continue;
-
             string tempoDecorrido = $"{c.TempoDecorrido} dias";
 
             Console.WriteLine(
@@ -66,20 +58,10 @@ public class TelaChamado : TelaBase
             "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
         );
 
-        EntidadeBase[] registros = repositorioEquipamento.SelecionarRegistros();
+        List<Equipamento> registros = repositorioEquipamento.SelecionarRegistros();
 
-        Equipamento[] equipamentosCadastrados = new Equipamento[registros.Length];
-
-        for (int i = 0; i < registros.Length; i++)
-            equipamentosCadastrados[i] = (Equipamento)registros[i];
-
-
-        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        foreach (var e in registros)
         {
-            Equipamento e = equipamentosCadastrados[i];
-
-            if (e == null) continue;
-
             Console.WriteLine(
             "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
             e.Id, e.Nome, e.NumeroSerie, e.Fabricante.Nome, e.PrecoAquisicao.ToString("C2"), e.DataFabricacao.ToShortDateString()

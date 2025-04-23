@@ -4,12 +4,12 @@ using System.Net.Mail;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
-public class Fabricante : EntidadeBase
+public class Fabricante : EntidadeBase<Fabricante>
 {
     public string Nome { get; set; }
     public string Email { get; set; }
     public string Telefone { get; set; }
-    public Equipamento[] Equipamentos { get; private set; }
+    public List<Equipamento> Equipamentos { get; private set; }
     public int QuantidadeEquipamentos
     {
         get
@@ -31,7 +31,7 @@ public class Fabricante : EntidadeBase
         Nome = nome;
         Email = email;
         Telefone = telefone;
-        Equipamentos = new Equipamento[100];
+        Equipamentos = new List<Equipamento>();
     }
 
     public override string Validar()
@@ -55,36 +55,16 @@ public class Fabricante : EntidadeBase
 
     public void AdicionarEquipamento(Equipamento equipamento)
     {
-        for (int i = 0; i < Equipamentos.Length; i++)
-        {
-            if (Equipamentos[i] == null)
-            {
-                Equipamentos[i] = equipamento;
-                return;
-            }
-        }
+        Equipamentos.Add(equipamento);
     }
 
     public void RemoverEquipamento(Equipamento equipamento)
     {
-        for (int i = 0; i < Equipamentos.Length; i++)
-        {
-            if (Equipamentos[i] == null)
-                continue;
-
-            else if (Equipamentos[i] == equipamento)
-            {
-                Equipamentos[i] = null;
-
-                return;
-            }
-        }
+        Equipamentos.Remove(equipamento);
     }
 
-    public override void AtualizarRegistro(EntidadeBase registroEditado)
+    public override void AtualizarRegistro(Fabricante fabricanteEditado)
     {
-        Fabricante fabricanteEditado = (Fabricante)registroEditado;
-
         Nome = fabricanteEditado.Nome;
         Email = fabricanteEditado.Email;
         Telefone = fabricanteEditado.Telefone;

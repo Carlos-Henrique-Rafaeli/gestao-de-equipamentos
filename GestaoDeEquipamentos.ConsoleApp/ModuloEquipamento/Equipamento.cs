@@ -3,7 +3,7 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
-public class Equipamento : EntidadeBase
+public class Equipamento : EntidadeBase<Equipamento>
 {
     public string Nome { get; set; }
     public Fabricante Fabricante { get; set; }
@@ -45,10 +45,8 @@ public class Equipamento : EntidadeBase
         return erros;
     }
 
-    public override void AtualizarRegistro(EntidadeBase registroEditado)
+    public override void AtualizarRegistro(Equipamento equipamentoEditado)
     {
-        Equipamento equipamentoEditado = (Equipamento)registroEditado;
-        
         Nome = equipamentoEditado.Nome;
         Fabricante = equipamentoEditado.Fabricante;
         PrecoAquisicao = equipamentoEditado.PrecoAquisicao;

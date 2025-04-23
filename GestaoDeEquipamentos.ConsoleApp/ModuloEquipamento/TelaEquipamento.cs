@@ -3,11 +3,11 @@ using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
-public class TelaEquipamento : TelaBase
+public class TelaEquipamento : TelaBase<Equipamento>, ITelaCrud
 {
 
-    public RepositorioEquipamento repositorioEquipamento;
-    public RepositorioFabricante repositorioFabricante;
+    private RepositorioEquipamento repositorioEquipamento;
+    private RepositorioFabricante repositorioFabricante;
 
     public TelaEquipamento(RepositorioFabricante repositorioFabricante, 
         RepositorioEquipamento repositorioEquipamento)
@@ -157,19 +157,10 @@ public class TelaEquipamento : TelaBase
             "Id", "Nome", "Num. Série", "Fabricante", "Preço", "Data de Fabricação"
         );
 
-        EntidadeBase[] registros = repositorioEquipamento.SelecionarRegistros();
+        List<Equipamento> registros = repositorioEquipamento.SelecionarRegistros();
 
-        Equipamento[] equipamentosCadastrados = new Equipamento[registros.Length];
-
-        for (int i = 0; i < registros.Length; i++)
-            equipamentosCadastrados[i] = (Equipamento)registros[i];
-
-        for (int i = 0; i < equipamentosCadastrados.Length; i++)
+        foreach (var e in registros)
         {
-            Equipamento e = equipamentosCadastrados[i];
-
-            if (e == null) continue;
-
             Console.WriteLine(
                 "{0, -10} | {1, -15} | {2, -11} | {3, -15} | {4, -15} | {5, -10}",
                 e.Id, e.Nome, e.NumeroSerie, e.Fabricante.Nome, e.PrecoAquisicao.ToString("C2"), e.DataFabricacao.ToShortDateString()
@@ -182,7 +173,7 @@ public class TelaEquipamento : TelaBase
         Console.ReadLine();
     }
 
-    public override EntidadeBase ObterDados()
+    public override Equipamento ObterDados()
     {
         string nome;
         do
@@ -250,19 +241,10 @@ public class TelaEquipamento : TelaBase
             "Id", "Nome", "Email", "Telefone", "Qtd. Equipamentos"
         );
 
-        EntidadeBase[] registros = repositorioFabricante.SelecionarRegistros();
-        Fabricante[] fabricantesCadastrados = new Fabricante[registros.Length];
+        List<Fabricante> registros = repositorioFabricante.SelecionarRegistros();
 
-        for (int i = 0; i < registros.Length; i++)
-            fabricantesCadastrados[i] = (Fabricante)registros[i];
-
-        for (int i = 0; i < fabricantesCadastrados.Length; i++)
+        foreach (var f in registros)
         {
-            Fabricante f = fabricantesCadastrados[i];
-
-            if (f == null)
-                continue;
-
             Console.WriteLine(
             "{0, -6} | {1, -20} | {2, -30} | {3, -30} | {4, -20}",
                 f.Id, f.Nome, f.Email, f.Telefone, f.QuantidadeEquipamentos
