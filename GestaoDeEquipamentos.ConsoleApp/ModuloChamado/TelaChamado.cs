@@ -6,11 +6,11 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
 public class TelaChamado : TelaBase<Chamado>, ITelaCrud
 {
-    public RepositorioEquipamento repositorioEquipamento;
-    public RepositorioChamado repositorioChamado;
+    public IRepositorioEquipamento repositorioEquipamento;
+    public IRepositorioChamado repositorioChamado;
 
-    public TelaChamado(RepositorioEquipamento repositorioEquipamento, 
-        RepositorioChamado repositorioChamado)
+    public TelaChamado(IRepositorioEquipamento repositorioEquipamento, 
+        IRepositorioChamado repositorioChamado)
         : base("Chamado", repositorioChamado)
     {
         this.repositorioEquipamento = repositorioEquipamento;
@@ -104,7 +104,7 @@ public class TelaChamado : TelaBase<Chamado>, ITelaCrud
 
         } while (!idValido);
 
-        Equipamento equipamentoSelecionado = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idEquipamento);
+        Equipamento equipamentoSelecionado = repositorioEquipamento.SelecionarRegistroPorId(idEquipamento);
 
         if (equipamentoSelecionado == null) return null;
 

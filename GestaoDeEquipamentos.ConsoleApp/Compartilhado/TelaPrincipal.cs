@@ -7,15 +7,15 @@ namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 public class TelaPrincipal
 {
     private string opcaoPrincipal;
-    private RepositorioFabricante repositorioFabricante;
-    private RepositorioEquipamento repositorioEquipamento;
-    private RepositorioChamado repositorioChamado;
+    private IRepositorioFabricante repositorioFabricante;
+    private IRepositorioEquipamento repositorioEquipamento;
+    private IRepositorioChamado repositorioChamado;
 
     public TelaPrincipal()
     {
-        repositorioFabricante = new RepositorioFabricante();
-        repositorioEquipamento = new RepositorioEquipamento();
-        repositorioChamado = new RepositorioChamado();
+        repositorioFabricante = new RepositorioFabricanteEmArquivo();
+        repositorioEquipamento = new RepositorioEquipamentoEmMemoria();
+        repositorioChamado = new RepositorioChamadoEmArquivo();
     }
 
 

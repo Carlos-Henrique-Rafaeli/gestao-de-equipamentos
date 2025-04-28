@@ -1,6 +1,6 @@
 ﻿namespace GestaoDeEquipamentos.ConsoleApp.Compartilhado;
 
-public abstract class RepositorioBase<T> where T : EntidadeBase<T>
+public abstract class RepositorioBaseEmMemoria<T> where T : EntidadeBase<T>
 {
     private List<T> registros = new List<T>();
     private int contadorIds = 0;

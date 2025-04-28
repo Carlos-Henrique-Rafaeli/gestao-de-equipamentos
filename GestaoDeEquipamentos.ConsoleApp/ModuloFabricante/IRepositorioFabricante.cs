@@ -1,6 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
-public class RepositorioFabricante : RepositorioBase<Fabricante>
-{
-}
+public interface IRepositorioFabricante : IRepositorio<Fabricante>;

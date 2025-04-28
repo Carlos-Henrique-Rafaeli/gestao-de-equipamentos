@@ -6,11 +6,11 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 public class TelaEquipamento : TelaBase<Equipamento>, ITelaCrud
 {
 
-    private RepositorioEquipamento repositorioEquipamento;
-    private RepositorioFabricante repositorioFabricante;
+    private IRepositorioEquipamento repositorioEquipamento;
+    private IRepositorioFabricante repositorioFabricante;
 
-    public TelaEquipamento(RepositorioFabricante repositorioFabricante, 
-        RepositorioEquipamento repositorioEquipamento)
+    public TelaEquipamento(IRepositorioFabricante repositorioFabricante, 
+        IRepositorioEquipamento repositorioEquipamento)
         : base("Equipamento", repositorioEquipamento)
     {
         this.repositorioFabricante = repositorioFabricante;
@@ -27,7 +27,7 @@ public class TelaEquipamento : TelaBase<Equipamento>, ITelaCrud
 
         Console.WriteLine();
 
-        Equipamento novoEquipamento = (Equipamento)ObterDados();
+        Equipamento novoEquipamento = ObterDados();
 
         string erros = novoEquipamento.Validar();
 
@@ -71,12 +71,12 @@ public class TelaEquipamento : TelaBase<Equipamento>, ITelaCrud
 
         } while (!idValido);
 
-        Equipamento equipamentoAntigo = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
+        Equipamento equipamentoAntigo = repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
         Fabricante fabricanteAntigo = equipamentoAntigo.Fabricante;
 
         Console.WriteLine();
 
-        Equipamento equipamentoEditado = (Equipamento)ObterDados();
+        Equipamento equipamentoEditado = ObterDados();
 
         Fabricante fabricanteEditado = equipamentoEditado.Fabricante;
 
@@ -122,7 +122,7 @@ public class TelaEquipamento : TelaBase<Equipamento>, ITelaCrud
 
         } while (!idValido);
 
-        Equipamento equipamentoSelecionado = (Equipamento)repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
+        Equipamento equipamentoSelecionado = repositorioEquipamento.SelecionarRegistroPorId(idSelecionado);
 
         bool conseguiuExcluir = repositorioEquipamento.ExcluirRegistro(idSelecionado);
 
@@ -198,7 +198,7 @@ public class TelaEquipamento : TelaBase<Equipamento>, ITelaCrud
 
         } while (!fabricanteValido);
 
-        Fabricante novoFabricante = (Fabricante)repositorioFabricante.SelecionarRegistroPorId(idFabricante);
+        Fabricante novoFabricante = repositorioFabricante.SelecionarRegistroPorId(idFabricante);
 
         decimal precoAquisicao;
         bool precoValido;
