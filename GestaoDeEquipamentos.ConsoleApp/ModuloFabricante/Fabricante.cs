@@ -9,7 +9,7 @@ public class Fabricante : EntidadeBase<Fabricante>
     public string Nome { get; set; }
     public string Email { get; set; }
     public string Telefone { get; set; }
-    public List<Equipamento> Equipamentos { get; private set; }
+    public List<Equipamento> Equipamentos { get; set; }
     public int QuantidadeEquipamentos
     {
         get
@@ -24,14 +24,16 @@ public class Fabricante : EntidadeBase<Fabricante>
             return contador;
         }
     }
+    public Fabricante()
+    {
+        Equipamentos = new List<Equipamento>();
+    }
 
-
-    public Fabricante(string nome, string email, string telefone)
+    public Fabricante(string nome, string email, string telefone) : this()
     {
         Nome = nome;
         Email = email;
         Telefone = telefone;
-        Equipamentos = new List<Equipamento>();
     }
 
     public override string Validar()

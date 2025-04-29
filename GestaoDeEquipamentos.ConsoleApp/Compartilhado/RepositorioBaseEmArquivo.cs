@@ -7,15 +7,13 @@ public abstract class RepositorioBaseEmArquivo<T> where T: EntidadeBase<T>
     private List<T> registros = new List<T>();
     private int contadorIds = 0;
 
-    private string caminhoPastaTemp = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "GestaoDeEquipamentos");
-    private string nomeArquivo;
+    protected ContextoDados contexto;
 
-    protected RepositorioBaseEmArquivo(string nomeArquivo)
+    protected RepositorioBaseEmArquivo(ContextoDados contexto)
     {
-        this.nomeArquivo = nomeArquivo;
+        this.contexto = contexto;
 
-        registros = Desserializar();
+        registros = ObterRegistros();
 
         int maiorId = 0;
 
@@ -28,13 +26,15 @@ public abstract class RepositorioBaseEmArquivo<T> where T: EntidadeBase<T>
         contadorIds = maiorId;
     }
 
+    protected abstract List<T> ObterRegistros();
+
     public void CadastrarRegistro(T novoRegistro)
     {
         novoRegistro.Id = ++contadorIds;
 
         registros.Add(novoRegistro);
 
-        Serializar();
+        contexto.Salvar();
     }
 
     public bool EditarRegistro(int idRegistro, T registroEditado)
@@ -45,7 +45,7 @@ public abstract class RepositorioBaseEmArquivo<T> where T: EntidadeBase<T>
             {
                 item.AtualizarRegistro(registroEditado);
 
-                Serializar();
+                contexto.Salvar();
 
                 return true;
             }
@@ -62,7 +62,7 @@ public abstract class RepositorioBaseEmArquivo<T> where T: EntidadeBase<T>
         {
             registros.Remove(registroSelecionado);
 
-            Serializar();
+            contexto.Salvar();
 
             return true;
         }
@@ -84,36 +84,5 @@ public abstract class RepositorioBaseEmArquivo<T> where T: EntidadeBase<T>
         }
 
         return null;
-    }
-
-    protected void Serializar()
-    {
-        if (!Directory.Exists(caminhoPastaTemp))
-            Directory.CreateDirectory(caminhoPastaTemp);
-        
-        string caminhoCompleto = Path.Combine(caminhoPastaTemp, nomeArquivo);
-
-        string json = JsonSerializer.Serialize(registros);
-
-        File.WriteAllText(caminhoCompleto, json);
-    }
-
-    protected List<T> Desserializar()
-    {
-        List<T> registrosArmazenados = [];
-
-        string caminhoCompleto = Path.Combine(caminhoPastaTemp, nomeArquivo);
-
-        if (!File.Exists(caminhoCompleto))
-            return registrosArmazenados;
-
-        string json = File.ReadAllText(caminhoCompleto);
-
-        if (string.IsNullOrWhiteSpace(json))
-            return registrosArmazenados;
-
-        registrosArmazenados = JsonSerializer.Deserialize<List<T>>(json)!;
-
-        return registrosArmazenados;
     }
 }

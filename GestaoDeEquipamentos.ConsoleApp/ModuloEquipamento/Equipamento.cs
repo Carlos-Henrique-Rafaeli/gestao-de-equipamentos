@@ -1,4 +1,5 @@
 ﻿using GestaoDeEquipamentos.ConsoleApp.Compartilhado;
+using GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 using GestaoDeEquipamentos.ConsoleApp.ModuloFabricante;
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
@@ -9,6 +10,7 @@ public class Equipamento : EntidadeBase<Equipamento>
     public Fabricante Fabricante { get; set; }
     public decimal PrecoAquisicao { get; set; }
     public DateTime DataFabricacao { get; set; }
+    public List<Chamado> Chamados { get; set; }
     public string NumeroSerie
     {
         get
@@ -18,8 +20,12 @@ public class Equipamento : EntidadeBase<Equipamento>
             return $"{tresPrimeirosCaracteres}-{Id}";
         }
     }
+    public Equipamento()
+    {
+        Chamados = new List<Chamado>(); 
+    }
 
-    public Equipamento(string nome, Fabricante fabricante, decimal precoAquisicao, DateTime dataFabricacao)
+    public Equipamento(string nome, Fabricante fabricante, decimal precoAquisicao, DateTime dataFabricacao) : this()
     {
         Nome = nome;
         Fabricante = fabricante;
@@ -27,6 +33,17 @@ public class Equipamento : EntidadeBase<Equipamento>
         DataFabricacao = dataFabricacao;
     }
 
+    public void AdicionarChamado(Chamado chamado)
+    {
+        if (!Chamados.Contains(chamado))
+            Chamados.Add(chamado);
+    }
+
+    public void RemoverChamado(Chamado chamado)
+    {
+        if (Chamados.Contains(chamado))
+            Chamados.Remove(chamado);
+    }
 
     public override string Validar()
     {

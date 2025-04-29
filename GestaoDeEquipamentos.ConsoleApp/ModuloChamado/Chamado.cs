@@ -5,7 +5,6 @@ namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
 public class Chamado : EntidadeBase<Chamado>
 {
-    public int Id { get; set; }
     public string Titulo { get; set; }
     public string Descricao { get; set; }
     public Equipamento Equipamento { get; set; }
@@ -20,7 +19,11 @@ public class Chamado : EntidadeBase<Chamado>
         }
     }
 
-    public Chamado(string titulo, string descricao, Equipamento equipamento)
+    public Chamado()
+    {
+    }
+
+    public Chamado(string titulo, string descricao, Equipamento equipamento) : this()
     {
         Titulo = titulo;
         Descricao = descricao;
