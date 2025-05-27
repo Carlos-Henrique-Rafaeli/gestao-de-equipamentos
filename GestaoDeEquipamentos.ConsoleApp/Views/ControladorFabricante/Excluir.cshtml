@@ -1,0 +1,26 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model ExcluirFabricanteViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Exclusão de Fabricante";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/fabricantes/cadastrar">Cadastrar Fabricante</a>
+    <a href="/fabricantes/visualizar">Visualizar Fabricantes</a>
+}
+
+<form action="/fabricantes/excluir/@Model.Id" method="post">
+    <p>Você tem certeza que deseja excluir o registro <strong>@Model.Nome?</strong></p>
+
+    <div class="button-interaction">
+        <button type="submit" id="botaoCustom">Confirmar</button>
+        <a type="button" id="botaoCustom" href="/fabricantes/visualizar">Voltar</a>
+    </div>
+</form>

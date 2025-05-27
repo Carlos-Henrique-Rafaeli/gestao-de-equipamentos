@@ -2,9 +2,9 @@
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloChamado;
 
-public class RepositorioChamadoEmArquivo : RepositorioBaseEmArquivo<Chamado>, IRepositorioChamado
+public class RepositorioChamado : RepositorioBase<Chamado>, IRepositorioChamado
 {
-    public RepositorioChamadoEmArquivo(ContextoDados contexto) : base(contexto)
+    public RepositorioChamado(ContextoDados contexto) : base(contexto)
     {
     }
 

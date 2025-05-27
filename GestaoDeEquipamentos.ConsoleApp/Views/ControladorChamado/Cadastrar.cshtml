@@ -1,0 +1,39 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model CadastrarChamadoViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Chamado";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/chamados/visualizar">Visualizar Chamados</a>
+}
+
+<form action="/chamados/cadastrar" method="post">
+    <div class="option">
+        <label>Título do Chamado:</label>
+        <input type="text" name="titulo" />
+
+        <label>Descrição do Chamado:</label>
+        <input type="text" name="descricao" />
+
+        <label for="EquipamentoId">Equipamento do Chamado:</label>
+        <select name="EquipamentoId" id="EquipamentoId">
+            @foreach (var f in Model.EquipamentosDisponiveis)
+            {   
+                <option value="@f.Id">@f.Nome</option>
+            }
+        </select>
+
+        <div class="button-interaction">
+            <button type="submit" id="botaoCustom">Confirmar</button>
+            <a type="button" id="botaoCustom" href="/chamados/visualizar">Voltar</a>
+        </div>
+    </div>
+</form>

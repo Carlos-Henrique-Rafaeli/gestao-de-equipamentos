@@ -1,0 +1,35 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model EditarFabricanteViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Fabricante";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/fabricantes/cadastrar">Cadastrar Fabricante</a>
+    <a href="/fabricantes/visualizar">Visualizar Fabricantes</a>
+}
+
+<form action="/fabricantes/editar/@Model.Id" method="post">
+    <div class="option">
+        <label>Nome do Fabricante:</label>
+        <input type="text" name="nome" value="@Model.Nome"/>
+
+        <label>Telefone do Fabricante:</label>
+        <input type="text" name="telefone" value="@Model.Telefone" />
+
+        <label>Email do Fabricante:</label>
+        <input type="text" name="email" value="@Model.Email" />
+
+        <div class="button-interaction">
+            <button type="submit" id="botaoCustom">Confirmar</button>
+            <a type="button" id="botaoCustom" href="/fabricantes/visualizar">Voltar</a>
+        </div>
+    </div>
+</form>

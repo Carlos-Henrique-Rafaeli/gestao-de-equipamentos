@@ -1,0 +1,27 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model VisualizarChamadosViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Visualização de Chamados";
+}
+
+@section Header {
+    <a href="/chamados/cadastrar">Cadastrar Chamado</a>
+}
+
+@foreach (var f in Model.Registros)
+{
+    <div class="card">
+        <h3>@f.Titulo</h3>
+
+        <p><strong>Descrição: </strong>@f.Descricao</p>
+        <p><strong>Equipamento: </strong>@f.NomeEquipamento</p>
+
+        <div class="button-interaction">
+            <a type="button" id="botaoCustom" href="/chamados/editar/@f.Id">Editar</a>
+            <a type="button" id="botaoCustom" href="/chamados/excluir/@f.Id">Excluir</a>
+        </div>
+    </div>
+}

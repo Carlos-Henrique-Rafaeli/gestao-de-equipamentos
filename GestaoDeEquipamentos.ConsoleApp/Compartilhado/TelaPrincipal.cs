@@ -15,9 +15,9 @@ public class TelaPrincipal
     public TelaPrincipal()
     {
         this.contexto = new ContextoDados(true);
-        this.repositorioFabricante = new RepositorioFabricanteEmArquivo(contexto);
-        this.repositorioEquipamento = new RepositorioEquipamentoEmArquivo(contexto);
-        this.repositorioChamado = new RepositorioChamadoEmArquivo(contexto);
+        this.repositorioFabricante = new RepositorioFabricante(contexto);
+        this.repositorioEquipamento = new RepositorioEquipamento(contexto);
+        this.repositorioChamado = new RepositorioChamado(contexto);
     }
 
 

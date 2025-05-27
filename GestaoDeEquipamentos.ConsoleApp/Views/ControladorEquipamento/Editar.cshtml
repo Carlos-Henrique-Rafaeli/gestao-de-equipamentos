@@ -1,0 +1,43 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model EditarEquipamentoViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Equipamento";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/equipamentos/cadastrar">Cadastrar Equipamento</a>
+    <a href="/equipamentos/visualizar">Visualizar Equipamentos</a>
+}
+
+<form action="/equipamentos/editar/@Model.Id" method="post">
+    <div class="option">
+        <label>Nome do Equipamento:</label>
+        <input type="text" name="nome" value="@Model.Nome"/>
+
+        <label>Preço de Aquisição do Equipamento:</label>
+        <input type="text" name="precoAquisicao" value="@Model.PrecoAquisicao"/>
+
+        <label>Data de Fabricação do Equipamento:</label>
+        <input type="date" name="dataFabricacao" value="@Model.DataFabricacao.ToString("yyyy-MM-dd")" />
+
+        <label for="FabricanteId">Fabricante do Equipamento:</label>
+        <select name="FabricanteId" id="FabricanteId">
+            @foreach (var f in Model.FabricantesDisponiveis)
+            {
+                <option value="@f.Id" @(f.Id == Model.FabricanteId ? "selected" : "")>@f.Nome</option>
+            }
+        </select>
+
+        <div class="button-interaction">
+            <button type="submit" id="botaoCustom">Confirmar</button>
+            <a type="button" id="botaoCustom" href="/equipamentos/visualizar">Voltar</a>
+        </div>
+    </div>
+</form>

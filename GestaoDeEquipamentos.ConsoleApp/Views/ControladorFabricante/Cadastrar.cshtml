@@ -1,0 +1,34 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model CadastrarFabricanteViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Cadastro de Fabricante";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/fabricantes/visualizar">Visualizar Fabricantes</a>
+}
+
+<form action="/fabricantes/cadastrar" method="post">
+    <div class="option">
+        <label>Nome do Fabricante:</label>
+        <input type="text" name="nome" />
+
+        <label>Telefone do Fabricante:</label>
+        <input type="text" name="telefone" />
+
+        <label>Email do Fabricante:</label>
+        <input type="text" name="email" />
+
+        <div class="button-interaction">
+            <button type="submit" id="botaoCustom">Confirmar</button>
+            <a type="button" id="botaoCustom" href="/fabricantes/visualizar">Voltar</a>
+        </div>
+    </div>
+</form>

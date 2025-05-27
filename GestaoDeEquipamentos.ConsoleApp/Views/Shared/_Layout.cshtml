@@ -1,0 +1,53 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link rel="stylesheet" href="~/View.css" />
+
+    @RenderSection("Style", required: false)
+
+    <style>
+        @@media (max-width: 768px) {
+            nav
+
+        {
+            padding: 20px;
+            justify-content: center;
+        }
+
+        header {
+            padding: 20px;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        }
+    </style>
+
+    <title>@ViewBag.Titulo - Gestão de Equipamentos</title>
+</head>
+
+<body>
+    <nav>
+        <a class="a-main" href="/">Gestão de Equipamentos</a>
+        <ul>
+            <li><a href="/fabricantes/visualizar">Fabricantes</a></li>
+            <li><a href="/equipamentos/visualizar">Equipamentos</a></li>
+            <li><a href="/chamados/visualizar">Chamados</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h2>@ViewBag.Titulo</h2>
+        @RenderSection("Header", required: false)
+    </header>
+    <hr style="border: 1px solid var(--fundo-secundario)" />
+    <main>
+        @RenderBody()
+    </main>
+</body>
+</html>

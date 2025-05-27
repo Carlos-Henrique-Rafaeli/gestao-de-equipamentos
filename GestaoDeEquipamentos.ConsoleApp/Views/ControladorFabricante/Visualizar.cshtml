@@ -1,0 +1,27 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model VisualizarFabricantesViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Visualização de Fabricantes";
+}
+
+@section Header {
+    <a href="/fabricantes/cadastrar">Cadastrar Fabricante</a>
+}
+
+@foreach (var f in Model.Registros)
+{
+    <div class="card">
+        <h3>@f.Nome</h3>
+
+        <p><strong>Telefone: </strong>@f.Telefone</p>
+        <p><strong>E-Mail: </strong>@f.Email</p>
+
+        <div class="button-interaction">
+            <a type="button" id="botaoCustom" href="/fabricantes/editar/@f.Id">Editar</a>
+            <a type="button" id="botaoCustom" href="/fabricantes/excluir/@f.Id">Excluir</a>
+        </div>
+    </div>
+}

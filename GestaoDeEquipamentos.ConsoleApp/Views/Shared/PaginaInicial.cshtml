@@ -1,0 +1,35 @@
+﻿﻿@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Página Inicial";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Main.css" />
+}
+
+<div class="card">
+    <h3>Fabricantes</h3>
+
+    <ul>
+        <li><a href="/fabricantes/cadastrar">Cadastrar Novo Fabricante</a></li>
+        <li><a href="/fabricantes/visualizar">Visualizar Fabricantes</a></li>
+    </ul>
+</div>
+
+<div class="card">
+    <h3>Equipamentos</h3>
+
+    <ul>
+        <li><a href="/equipamentos/cadastrar">Cadastrar Equipamento</a></li>
+        <li><a href="/equipamentos/visualizar">Visualizar Equipamentos</a></li>
+    </ul>
+</div>
+
+<div class="card">
+    <h3>Chamados</h3>
+
+    <ul>
+        <li><a href="/chamados/cadastrar">Cadastrar Chamado</a></li>
+        <li><a href="/chamados/visualizar">Visualizar Chamados</a></li>
+    </ul>
+</div>

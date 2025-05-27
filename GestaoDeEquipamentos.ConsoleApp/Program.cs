@@ -6,37 +6,16 @@ internal class Program
 {
     static void Main(string[] args)
     {
-        TelaPrincipal telaPrincipal = new TelaPrincipal();
+        WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-        while (true)
-        {
-            bool deveRodar = true;
+        builder.Services.AddControllersWithViews();
 
-            telaPrincipal.ApresentarMenuPrincipal();
+        WebApplication app = builder.Build();
 
-            ITelaCrud telaSelecionada = telaPrincipal.ObterTela();
+        app.UseStaticFiles();
+        app.UseRouting();
+        app.MapControllers();
 
-            if (telaSelecionada == null) return;
-
-            while (deveRodar)
-            {
-                string opcaoEscolhida = telaSelecionada.ApresentarMenu();
-
-                switch (opcaoEscolhida)
-                {
-                    case "1": telaSelecionada.CadastrarRegistro(); break;
-
-                    case "2": telaSelecionada.EditarRegistro(); break;
-
-                    case "3": telaSelecionada.ExcluirRegistro(); break;
-
-                    case "4": telaSelecionada.VisualizarRegistros(true); break;
-
-                    case "S": deveRodar = false; break;
-
-                    default: Console.WriteLine("Opção Inválida!"); Console.ReadLine(); break;
-                }
-            }
-        }
+        app.Run();
     }
 }

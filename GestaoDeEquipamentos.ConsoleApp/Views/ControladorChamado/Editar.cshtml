@@ -1,0 +1,40 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model EditarChamadoViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Edição de Chamado";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/chamados/cadastrar">Cadastrar Chamado</a>
+    <a href="/chamados/visualizar">Visualizar Chamados</a>
+}
+
+<form action="/chamados/editar/@Model.Id" method="post">
+    <div class="option">
+        <label>Título do Chamado:</label>
+        <input type="text" name="titulo" value="@Model.Titulo"/>
+
+        <label>Descrição do Chamado:</label>
+        <input type="text" name="descricao" value="@Model.Descricao"/>
+
+        <label for="EquipamentoId">Equipamento do Chamado:</label>
+        <select name="EquipamentoId" id="EquipamentoId">
+            @foreach (var f in Model.EquipamentosDisponiveis)
+            {
+                <option value="@f.Id" @(f.Id == Model.EquipamentoId ? "selected" : "")>@f.Nome</option>
+            }
+        </select>
+
+        <div class="button-interaction">
+            <button type="submit" id="botaoCustom">Confirmar</button>
+            <a type="button" id="botaoCustom" href="/chamados/visualizar">Voltar</a>
+        </div>
+    </div>
+</form>

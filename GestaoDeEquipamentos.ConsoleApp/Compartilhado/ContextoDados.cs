@@ -12,10 +12,11 @@ public class ContextoDados
     public List<Fabricante> Fabricantes { get; set; }
     public List<Equipamento> Equipamentos { get; set; }
     public List<Chamado> Chamados { get; set; }
-    
-    private string pastaArmazemento = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-        "GestaoDeEquipamentos");
+
+    private string pastaRaiz = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+        "AcademiaProgramador2025");
     private string arquivoArmazenamento = "dados.json";
+    private string pastaPrincipal = "ControleDeEquipamentos";
 
     public ContextoDados()
     {
@@ -30,17 +31,21 @@ public class ContextoDados
             Carregar();
     }
 
-
     public void Salvar()
     {
-        if (!Directory.Exists(pastaArmazemento))
-            Directory.CreateDirectory(pastaArmazemento);
+        if (!Directory.Exists(pastaRaiz))
+            Directory.CreateDirectory(pastaRaiz);
+
+        string pastaProjeto = Path.Combine(pastaRaiz, pastaPrincipal);
+
+        if (!Directory.Exists(pastaProjeto))
+            Directory.CreateDirectory(pastaProjeto);
 
         JsonSerializerOptions jsonOptions = new JsonSerializerOptions();
         jsonOptions.WriteIndented = true;
         jsonOptions.ReferenceHandler = ReferenceHandler.Preserve;
 
-        string caminhoCompleto = Path.Combine(pastaArmazemento, arquivoArmazenamento);
+        string caminhoCompleto = Path.Combine(pastaProjeto, arquivoArmazenamento);
 
         string json = JsonSerializer.Serialize(this, jsonOptions);
 
@@ -49,7 +54,9 @@ public class ContextoDados
 
     public void Carregar()
     {
-        string caminhoCompleto = Path.Combine(pastaArmazemento, arquivoArmazenamento);
+        string pastaProjeto = Path.Combine(pastaRaiz, pastaPrincipal);
+
+        string caminhoCompleto = Path.Combine(pastaProjeto, arquivoArmazenamento);
 
         if (!File.Exists(caminhoCompleto)) return;
 
@@ -64,8 +71,8 @@ public class ContextoDados
 
         if (contextoArmazenado == null) return;
 
-        this.Fabricantes = contextoArmazenado.Fabricantes;
-        this.Equipamentos = contextoArmazenado.Equipamentos;
-        this.Chamados = contextoArmazenado.Chamados;
+        Fabricantes = contextoArmazenado.Fabricantes;
+        Equipamentos = contextoArmazenado.Equipamentos;
+        Chamados = contextoArmazenado.Chamados;
     }
 }

@@ -1,0 +1,10 @@
+﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model NotificacaoViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = Model.TituloPagina;
+}
+
+@Model.Mensagem

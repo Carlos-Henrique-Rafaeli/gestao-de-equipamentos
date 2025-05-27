@@ -1,0 +1,26 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model ExcluirEquipamentoViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Exclusão de Chamado";
+}
+
+@section Style {
+    <link rel="stylesheet" href="~/Register.css" />
+}
+
+@section Header {
+    <a href="/chamados/cadastrar">Cadastrar Chamado</a>
+    <a href="/chamados/visualizar">Visualizar Chamados</a>
+}
+
+<form action="/chamados/excluir/@Model.Id" method="post">
+    <p>Você tem certeza que deseja excluir o registro <strong>@Model.Nome?</strong></p>
+
+    <div class="button-interaction">
+        <button type="submit" id="botaoCustom">Confirmar</button>
+        <a type="button" id="botaoCustom" href="/chamados/visualizar">Voltar</a>
+    </div>
+</form>

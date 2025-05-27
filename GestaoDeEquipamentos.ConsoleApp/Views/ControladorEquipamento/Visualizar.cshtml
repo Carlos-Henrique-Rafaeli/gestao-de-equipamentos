@@ -1,0 +1,28 @@
+﻿﻿@using GestaoDeEquipamentos.ConsoleApp.Models;
+
+@model VisualizarEquipamentosViewModel;
+
+@{
+    Layout = "_Layout";
+    ViewBag.Titulo = "Visualização de Equipamentos";
+}
+
+@section Header {
+    <a href="/equipamentos/cadastrar">Cadastrar Equipamento</a>
+}
+
+@foreach (var f in Model.Registros)
+{
+    <div class="card">
+        <h3>@f.Nome</h3>
+
+        <p><strong>Fabricante: </strong>@f.NomeFabricante</p>
+        <p><strong>Preço: </strong>@f.PrecoAquisicao</p>
+        <p><strong>Data: </strong>@f.DataFabricacao.ToShortDateString()</p>
+
+        <div class="button-interaction">
+            <a type="button" id="botaoCustom" href="/fabricantes/editar/@f.Id">Editar</a>
+            <a type="button" id="botaoCustom" href="/fabricantes/excluir/@f.Id">Excluir</a>
+        </div>
+    </div>
+}

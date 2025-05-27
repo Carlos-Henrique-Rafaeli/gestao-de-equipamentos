@@ -2,9 +2,9 @@
 
 namespace GestaoDeEquipamentos.ConsoleApp.ModuloEquipamento;
 
-public class RepositorioEquipamentoEmArquivo : RepositorioBaseEmArquivo<Equipamento>, IRepositorioEquipamento
+public class RepositorioEquipamento : RepositorioBase<Equipamento>, IRepositorioEquipamento
 {
-    public RepositorioEquipamentoEmArquivo(ContextoDados contexto) : base(contexto)
+    public RepositorioEquipamento(ContextoDados contexto) : base(contexto)
     {
     }
 
