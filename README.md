@@ -2,22 +2,11 @@
 
 ## Demonstração
 
-
-### Controle de Fabricantes
-
-![](https://i.imgur.com/0ESbxhv.gif)
-
-### Controle de Equipamentos
-![](https://i.imgur.com/HJOxcoX.gif)
-
-### Controle de Chamados
-
-![](https://i.imgur.com/Z8NaOWF.gif)
-
+![](https://i.imgur.com/Vg95XsI.gif)
 
 ## Introdução
 
-Aplicativo para gerenciamento de um armazém, permitindo o controle de equipamentos, fabricantes e chamados. É possível cadastrar, editar, remover e visualizar essas informações de forma prática.
+Aplicativo WEB para gerenciamento de um armazém, permitindo o controle de equipamentos, fabricantes e chamados. É possível cadastrar, editar, remover e visualizar essas informações de forma prática.
 
 ## Funcionalidades
 
